@@ -4,15 +4,18 @@ using UnityEngine;
 
 public class ShipMovement : MonoBehaviour
 {
-    // Start is called before the first frame update
+    public float acceleration = 10f;
+    public float MAX_SPEED = 50f;
+    private Vector3 inputData = Vector3.zero;
     void Start()
     {
         
     }
 
-    // Update is called once per frame
     void Update()
     {
-        
+        float h = Input.GetAxis("Horizontal");
+        float v = Input.GetAxis("Vertical");
+        inputData = new Vector3(h, v, 0);
     }
 }
