@@ -5,7 +5,7 @@ using UnityEngine;
 public class ShipMovement : MonoBehaviour
 {
     public float acceleration = 10f;
-    public float MAX_SQR_SPEED = 2500f;
+    public float MAX_SPEED = 100f;
     private Rigidbody rb;
     private Vector3 inputData = Vector3.zero;
     void Start()
@@ -17,14 +17,14 @@ public class ShipMovement : MonoBehaviour
     {
         float h = Input.GetAxis("Horizontal");
         float v = Input.GetAxis("Vertical");
-        float z = Input.GetButtonDown("L Shift") ? 1 : 0;
+        float z = Input.GetKey(KeyCode.LeftShift) ? 1 : 0;
         inputData = new Vector3(h, v, z);
     }
 
     void FixedUpdate()
     {
-        if(inputData.z == 1 && rb.velocity.sqrMagnitude < MAX_SQR_SPEED){
-            rb.AddForce(transform.forward * acceleration);
+        if(rb.velocity.sqrMagnitude < MAX_SPEED*MAX_SPEED){
+            rb.velocity += transform.forward * acceleration * inputData.z * Time.fixedDeltaTime;
         }
     }
 }
