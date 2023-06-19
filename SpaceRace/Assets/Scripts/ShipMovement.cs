@@ -26,5 +26,7 @@ public class ShipMovement : MonoBehaviour
         if(rb.velocity.sqrMagnitude < MAX_SPEED*MAX_SPEED){
             rb.velocity += transform.forward * acceleration * inputData.z * Time.fixedDeltaTime;
         }
+
+        
     }
 }
