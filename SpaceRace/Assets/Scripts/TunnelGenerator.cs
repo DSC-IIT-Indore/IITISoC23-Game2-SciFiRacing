@@ -67,6 +67,12 @@ public class TunnelGenerator : MonoBehaviour
         }
     }
 
+    void WrapAround()
+    {
+        float radius = width / (6.28f);
+
+    }
+
     private void UpdateMesh()
     {
         mesh.Clear();
