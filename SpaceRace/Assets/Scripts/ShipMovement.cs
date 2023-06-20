@@ -6,7 +6,6 @@ public class ShipMovement : MonoBehaviour
 {
     public float acceleration = 10f;
     public float MAX_SPEED = 100f;
-
     public float max_roll_angle = 30f;
     public float max_pitch_angle = 30f;
     public float tilt_constant = 10f;
@@ -34,7 +33,6 @@ public class ShipMovement : MonoBehaviour
         float target_pitch_angle = Mathf.LerpAngle(transform.rotation.x, max_pitch_angle*inputData.y, tilt_constant);
         float target_roll_angle = Mathf.LerpAngle(transform.rotation.z, max_roll_angle*inputData.x, tilt_constant);
 
-        transform.RotateAround(transform.position, transform.right, target_pitch_angle);
-        transform.RotateAround(transform.position, transform.forward, target_roll_angle);
+        
     }
 }
