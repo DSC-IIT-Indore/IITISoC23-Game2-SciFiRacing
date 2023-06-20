@@ -6,6 +6,10 @@ public class ShipMovement : MonoBehaviour
 {
     public float acceleration = 10f;
     public float MAX_SPEED = 100f;
+
+    public float max_roll_angle = 30f;
+    public float max_pitch_angle = 30f;
+    public float tilt_constant = 10f;
     private Rigidbody rb;
     private Vector3 inputData = Vector3.zero;
     void Start()
@@ -27,6 +31,8 @@ public class ShipMovement : MonoBehaviour
             rb.velocity += transform.forward * acceleration * inputData.z * Time.fixedDeltaTime;
         }
 
+        Quaternion targetRotation = Quaternion.Euler(max_pitch_angle*inputData.y, transform.rotation.y, -max_roll_angle*inputData.x);
         
+        transform.rotation = Quaternion.Lerp(transform.rotation, targetRotation, tilt_constant*Time.fixedDeltaTime);
     }
 }
