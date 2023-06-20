@@ -31,8 +31,10 @@ public class ShipMovement : MonoBehaviour
             rb.velocity += transform.forward * acceleration * inputData.z * Time.fixedDeltaTime;
         }
 
-        //Quaternion targetRotation = Quaternion.Euler(max_pitch_angle*inputData.y, transform.rotation.y, -max_roll_angle*inputData.x);
-        //transform.rotation = Quaternion.Lerp(transform.rotation, targetRotation, tilt_constant*Time.fixedDeltaTime);
-        transform.RotateAround(transform.position, transform.right, max_pitch_angle*inputData.y);
+        float target_pitch_angle = Mathf.LerpAngle(transform.rotation.x, max_pitch_angle*inputData.y, tilt_constant);
+        float target_roll_angle = Mathf.LerpAngle(transform.rotation.z, max_roll_angle*inputData.x, tilt_constant);
+
+        transform.RotateAround(transform.position, transform.right, target_pitch_angle);
+        transform.RotateAround(transform.position, transform.forward, target_roll_angle);
     }
 }
