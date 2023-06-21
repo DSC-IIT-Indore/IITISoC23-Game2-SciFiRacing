@@ -5,12 +5,18 @@ using UnityEngine;
 public class ShipMovement : MonoBehaviour
 {
     public float acceleration = 10f;
-    public float MAX_SPEED = 100f;
-    public float max_roll_angle = 30f;
-    public float max_pitch_angle = 30f;
+    public float maxSpeed = 100f;
+    public float maxRollAngle = 30f;
+    public float maxPitchAngle = 30f;
     public float tilt_constant = 10f;
+    public float pitchSpeed = 2f;  
+    public float yawSpeed = 2f;    
+    public float rollSpeed = 2f;  
+    private float pitchInput;      
+    private float yawInput;       
+    private float rollInput;
+    private float accelInput;
     private Rigidbody rb;
-    private Vector3 inputData = Vector3.zero;
     void Start()
     {
         rb = GetComponent<Rigidbody>();
@@ -18,24 +24,23 @@ public class ShipMovement : MonoBehaviour
 
     void Update()
     {
-        float h = Input.GetAxis("Horizontal");
-        float v = Input.GetAxis("Vertical");
-        float z = Input.GetKey(KeyCode.LeftShift) ? 1 : 0;
-        inputData = new Vector3(h, v, z);
+        pitchInput = Input.GetAxis("Vertical");
+        yawInput = Input.GetAxis("Horizontal");
+        rollInput = Input.GetAxis("Roll");
+        accelInput = Input.GetKey(KeyCode.LeftShift) ? 1 : 0;
     }
 
     void FixedUpdate()
     {
-        if(rb.velocity.sqrMagnitude < MAX_SPEED*MAX_SPEED){
-            rb.velocity += transform.forward * acceleration * inputData.z * Time.fixedDeltaTime;
+        if(rb.velocity.sqrMagnitude < maxSpeed*maxSpeed){
+            rb.velocity += transform.forward * acceleration * accelInput  * Time.fixedDeltaTime;
         }
 
-        if(inputData.y != 0){
-            Vector3 target = Vector3.RotateTowards(transform.forward, transform.up*inputData.y, 
-                                                      max_pitch_angle*Mathf.Deg2Rad, 0);
-            
-            transform.forward = Vector3.Lerp(transform.forward, target, tilt_constant*Time.fixedDeltaTime);
-        }
+        Quaternion pitchRotation = Quaternion.Euler(pitchInput * pitchSpeed, 0f, 0f);
+        Quaternion yawRotation = Quaternion.Euler(0f, yawInput * yawSpeed, 0f);
+        Quaternion rollRotation = Quaternion.Euler(0f, 0f, -rollInput * rollSpeed);
+
+        rb.MoveRotation(rb.rotation * pitchRotation * yawRotation * rollRotation);
 
     }
 }
