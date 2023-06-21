@@ -10168,8 +10168,14 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 842fb2115a3622842889936337dcbc79, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  acceleration: 20
-  MAX_SPEED: 100
+  acceleration: 2500
+  maxSpeed: 1500
+  maxRollAngle: 20
+  maxPitchAngle: 30
+  tilt_constant: 10
+  pitchSpeed: 50
+  yawSpeed: 25
+  rollSpeed: 50
 --- !u!54 &158753071
 Rigidbody:
   m_ObjectHideFlags: 0
@@ -10179,7 +10185,7 @@ Rigidbody:
   m_GameObject: {fileID: 158472179}
   serializedVersion: 4
   m_Mass: 1
-  m_Drag: 0.5
+  m_Drag: 0
   m_AngularDrag: 0.05
   m_CenterOfMass: {x: 0, y: 0, z: 0}
   m_InertiaTensor: {x: 1, y: 1, z: 1}
@@ -20576,9 +20582,9 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   m_BindingMode: 1
   m_FollowOffset: {x: 0, y: 5, z: -10}
-  m_XDamping: 1
-  m_YDamping: 1
-  m_ZDamping: 1
+  m_XDamping: 0.2
+  m_YDamping: 0.2
+  m_ZDamping: 0.2
   m_AngularDampingMode: 0
   m_PitchDamping: 0
   m_YawDamping: 0
