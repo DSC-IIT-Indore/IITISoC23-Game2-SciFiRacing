@@ -30,9 +30,12 @@ public class ShipMovement : MonoBehaviour
             rb.velocity += transform.forward * acceleration * inputData.z * Time.fixedDeltaTime;
         }
 
-        float target_pitch_angle = Mathf.LerpAngle(transform.rotation.x, max_pitch_angle*inputData.y, tilt_constant);
-        float target_roll_angle = Mathf.LerpAngle(transform.rotation.z, max_roll_angle*inputData.x, tilt_constant);
+        if(inputData.y != 0){
+            Vector3 target = Vector3.RotateTowards(transform.forward, transform.up*inputData.y, 
+                                                      max_pitch_angle*Mathf.Deg2Rad, 0);
+            
+            transform.forward = Vector3.Lerp(transform.forward, target, tilt_constant*Time.fixedDeltaTime);
+        }
 
-        
     }
 }
