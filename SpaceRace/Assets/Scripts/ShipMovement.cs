@@ -41,10 +41,11 @@ public class ShipMovement : MonoBehaviour
             rb.AddForce(forceDir, ForceMode.Force);
         }
 
-        Vector3 lift = transform.up * -pitchInput * liftForce * rb.velocity.magnitude * Time.fixedDeltaTime;
+        Vector3 lift = transform.up * -pitchInput * liftForce * Vector3.Dot(transform.forward, rb.velocity) * Time.fixedDeltaTime;
         rb.AddForce(lift, ForceMode.Force);
 
-        rb.velocity = Vector3.Lerp(rb.velocity, transform.forward * rb.velocity.magnitude, dragCoefficient*Time.fixedDeltaTime);
+        ;//rb.velocity = Vector3.Lerp(rb.velocity, transform.forward * rb.velocity.magnitude, dragCoefficient*Time.fixedDeltaTime);
+
 
         Quaternion pitchRotation = Quaternion.Euler(pitchInput * pitchSpeed * Time.fixedDeltaTime, 0f, 0f);
         Quaternion yawRotation = Quaternion.Euler(0f, yawInput * yawSpeed * Time.fixedDeltaTime, 0f);
