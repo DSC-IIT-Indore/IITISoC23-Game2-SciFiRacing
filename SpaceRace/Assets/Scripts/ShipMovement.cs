@@ -20,6 +20,7 @@ public class ShipMovement : MonoBehaviour
     private float rollInput;
     private float accelInput;
     private Rigidbody rb;
+    private Quaternion pitchRotation;
     void Start()
     {
         rb = GetComponent<Rigidbody>();
@@ -45,9 +46,9 @@ public class ShipMovement : MonoBehaviour
 
         //rb.velocity = Vector3.Lerp(rb.velocity, transform.forward * rb.velocity.magnitude, dragCoefficient*Time.fixedDeltaTime);
 
-        Quaternion pitchRotation = transform.forward.y*-pitchInput <= maxPitchAngle && pitchInput != 0 
+        pitchRotation = transform.forward.y*-pitchInput <= maxPitchAngle && pitchInput != 0 
                                                                         ? Quaternion.Euler(pitchInput * pitchSpeed * Time.fixedDeltaTime, 0f, 0f)
-                                                                        : Quaternion.identity;
+                                                                        : Quaternion.Lerp(pitchRotation, Quaternion.identity, tiltConstant*Time.fixedDeltaTime);
         Quaternion yawRotation = Quaternion.Euler(0f, yawInput * yawSpeed * Time.fixedDeltaTime, 0f);
         Quaternion rollRotation = Quaternion.Euler(0f, 0f, -rollInput * rollSpeed * Time.fixedDeltaTime);
 
