@@ -12,7 +12,10 @@ public class ShipMovement : MonoBehaviour
     public float dragCoefficient = 1f;
     public float pitchSpeed = 2f;  
     public float yawSpeed = 2f;    
-    public float rollSpeed = 2f;  
+    public float rollSpeed = 2f;
+    public float liftForce = 10f;
+
+
     private float pitchInput;      
     private float yawInput;       
     private float rollInput;
@@ -37,6 +40,9 @@ public class ShipMovement : MonoBehaviour
             Vector3 forceDir = transform.forward * accelInput * acceleration * Time.fixedDeltaTime;
             rb.AddForce(forceDir, ForceMode.Force);
         }
+
+        Vector3 lift = transform.up * -pitchInput * liftForce * rb.velocity.magnitude * Time.fixedDeltaTime;
+        rb.AddForce(lift, ForceMode.Force);
 
         rb.velocity = Vector3.Lerp(rb.velocity, transform.forward * rb.velocity.magnitude, dragCoefficient*Time.fixedDeltaTime);
 
