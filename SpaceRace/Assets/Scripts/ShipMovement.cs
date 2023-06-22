@@ -9,7 +9,6 @@ public class ShipMovement : MonoBehaviour
     public float maxRollAngle = 30f;
     public float maxPitchAngle = 30f;
     public float tiltConstant = 10f;
-    public float dragCoefficient = 1f;
     public float pitchSpeed = 2f;  
     public float yawSpeed = 2f;    
     public float rollSpeed = 2f;
@@ -41,11 +40,11 @@ public class ShipMovement : MonoBehaviour
             rb.AddForce(forceDir, ForceMode.Force);
         }
 
-        Vector3 lift = transform.up * -pitchInput * liftForce * Vector3.Dot(transform.forward, rb.velocity) * Time.fixedDeltaTime;
+        Vector3 lift = transform.up * -transform.rotation.x * liftForce * rb.velocity.magnitude * Time.fixedDeltaTime;
+        Debug.Log(lift);
         rb.AddForce(lift, ForceMode.Force);
 
-        ;//rb.velocity = Vector3.Lerp(rb.velocity, transform.forward * rb.velocity.magnitude, dragCoefficient*Time.fixedDeltaTime);
-
+        //rb.velocity = Vector3.Lerp(rb.velocity, transform.forward * rb.velocity.magnitude, dragCoefficient*Time.fixedDeltaTime);
 
         Quaternion pitchRotation = Quaternion.Euler(pitchInput * pitchSpeed * Time.fixedDeltaTime, 0f, 0f);
         Quaternion yawRotation = Quaternion.Euler(0f, yawInput * yawSpeed * Time.fixedDeltaTime, 0f);
