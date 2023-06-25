@@ -729,7 +729,7 @@ MonoBehaviour:
   width: 100
   length: 100
   scale: 0.1
-  heightMultiplier: 500
+  heightMultiplier: 650
   spacingIndex: 50
   gradient:
     serializedVersion: 2
