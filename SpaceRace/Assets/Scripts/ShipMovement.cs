@@ -32,7 +32,8 @@ public class ShipMovement : MonoBehaviour
     void FixedUpdate()
     {
         if(rb.velocity.sqrMagnitude < maxSpeed*maxSpeed){
-            Vector3 forceDir = transform.forward * accelInput * acceleration * Time.fixedDeltaTime;
+            // Vector3 forceDir = transform.forward * accelInput * acceleration * Time.fixedDeltaTime;
+            Vector3 forceDir = transform.forward * acceleration * Time.fixedDeltaTime;
             rb.AddForce(forceDir, ForceMode.Force);
         }
  

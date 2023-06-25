@@ -19,9 +19,9 @@ public class ProceduralTerrain : MonoBehaviour
     {
         mesh = new Mesh();
         GetComponent<MeshFilter>().mesh = mesh;
-
         CreateTerrain();
         UpdateMesh();
+        GetComponent<MeshCollider>().sharedMesh = mesh;
     }
 
     void Update()
