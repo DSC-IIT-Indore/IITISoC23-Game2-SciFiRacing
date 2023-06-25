@@ -1,5 +1,3 @@
-using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
 
 public class ShipMovement : MonoBehaviour
@@ -13,12 +11,9 @@ public class ShipMovement : MonoBehaviour
     public float yawSpeed = 2f;    
     public float rollSpeed = 2f;
     public float liftForce = 10f;
-
-
-    private float pitchInput;      
-    private float yawInput;       
-    private float rollInput;
-    private float accelInput;
+    public float dragCoefficient = 1f;
+    
+    private float pitchInput, yawInput, rollInput, accelInput;
     private Rigidbody rb;
     private Quaternion pitchRotation;
     void Start()
@@ -44,7 +39,7 @@ public class ShipMovement : MonoBehaviour
         Vector3 lift = transform.up * transform.forward.y * liftForce * Vector3.Dot(transform.forward, rb.velocity) * Time.fixedDeltaTime;
         rb.AddForce(lift, ForceMode.Force);
 
-        //rb.velocity = Vector3.Lerp(rb.velocity, transform.forward * rb.velocity.magnitude, dragCoefficient*Time.fixedDeltaTime);
+        rb.velocity = Vector3.Lerp(rb.velocity, transform.forward * rb.velocity.magnitude, dragCoefficient*Time.fixedDeltaTime);
 
         pitchRotation = transform.forward.y*-pitchInput <= maxPitchAngle && pitchInput != 0 
                                                                         ? Quaternion.Euler(pitchInput * pitchSpeed * Time.fixedDeltaTime, 0f, 0f)
