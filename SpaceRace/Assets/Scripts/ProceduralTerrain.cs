@@ -43,6 +43,9 @@ public class ProceduralTerrain : MonoBehaviour
             {
 
                 float y = Mathf.PerlinNoise(x * scale, z * scale) * heightMultiplier;
+                float y1 = Mathf.PerlinNoise(x * scale*3, z * scale*3) * heightMultiplier/4;
+
+                y += y1;
                 vertices[vertIndex] = new Vector3(x*spacingIndex, y, z*spacingIndex);
 
                 if(y > maxTerrainHeight) maxTerrainHeight = y;
