@@ -1,4 +1,5 @@
 using UnityEngine;
+using System.Collections;
 
 [RequireComponent(typeof(MeshFilter), typeof(MeshRenderer))]
 public class ProceduralTerrain : MonoBehaviour
@@ -7,11 +8,13 @@ public class ProceduralTerrain : MonoBehaviour
     public int length = 100;
     public float scale = 10f;
     public float heightMultiplier = 10f;
+    public float spacingIndex = 1;
+    public Gradient gradient;
 
     private Mesh mesh;
     private Vector3[] vertices;
     private int[] triangles;
-
+    private float minTerrainHeight, maxTerrainHeight;
     void Start()
     {
         mesh = new Mesh();
@@ -23,9 +26,10 @@ public class ProceduralTerrain : MonoBehaviour
 
     void Update()
     {
-        CreateTerrain();
-        UpdateMesh();
+        //CreateTerrain();
+        //UpdateMesh();
     }
+
 
     private void CreateTerrain()
     {
@@ -39,7 +43,10 @@ public class ProceduralTerrain : MonoBehaviour
             {
 
                 float y = Mathf.PerlinNoise(x * scale, z * scale) * heightMultiplier;
-                vertices[vertIndex] = new Vector3(x, y, z);
+                vertices[vertIndex] = new Vector3(x*spacingIndex, y, z*spacingIndex);
+
+                if(y > maxTerrainHeight) maxTerrainHeight = y;
+                if(y < minTerrainHeight) minTerrainHeight = y;
                 vertIndex++;
             }
         }
@@ -72,6 +79,14 @@ public class ProceduralTerrain : MonoBehaviour
         mesh.Clear();
         mesh.vertices = vertices;
         mesh.triangles = triangles;
+
+        Color[] colors = new Color[vertices.Length];
+        for (int i = 0; i < vertices.Length; i++)
+        {
+            float normalizedHeight = Mathf.InverseLerp(minTerrainHeight, maxTerrainHeight, vertices[i].y);
+            colors[i] = gradient.Evaluate(normalizedHeight);
+        }
+        mesh.colors = colors;
         mesh.RecalculateNormals();
     }
 
