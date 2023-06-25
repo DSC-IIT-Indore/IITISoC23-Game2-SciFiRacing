@@ -183,7 +183,7 @@ Camera:
     width: 1
     height: 1
   near clip plane: 0.3
-  far clip plane: 1000
+  far clip plane: 2000
   field of view: 60.000004
   orthographic: 0
   orthographic size: 5
@@ -549,7 +549,7 @@ MonoBehaviour:
     FieldOfView: 60.000004
     OrthographicSize: 5
     NearClipPlane: 0.3
-    FarClipPlane: 1000
+    FarClipPlane: 2000
     Dutch: 0
     ModeOverride: 0
     LensShift: {x: 0, y: 0}
@@ -780,7 +780,7 @@ MeshCollider:
   m_ProvidesContacts: 0
   m_Enabled: 1
   serializedVersion: 5
-  m_Convex: 1
+  m_Convex: 0
   m_CookingOptions: 30
   m_Mesh: {fileID: 0}
 --- !u!23 &7651343482115590629
@@ -935,7 +935,7 @@ GameObject:
   - component: {fileID: 7651343482118045886}
   - component: {fileID: 7651343482118045887}
   m_Layer: 0
-  m_Name: CruiseFighter (Black and Gold)
+  m_Name: Player
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -1020,14 +1020,14 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 842fb2115a3622842889936337dcbc79, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  acceleration: 500
-  maxSpeed: 7000
+  acceleration: 2000
+  maxSpeed: 7500
   maxRollAngle: 0.5
   maxPitchAngle: 0.8
   tiltConstant: 10
-  pitchSpeed: 35
+  pitchSpeed: 40
   yawSpeed: 30
-  rollSpeed: 40
+  rollSpeed: 50
   liftForce: 10
   dragCoefficient: 1
 --- !u!54 &7651343482118045887
