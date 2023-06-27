@@ -10,6 +10,7 @@ public class ProceduralTerrain : MonoBehaviour
     public float heightMultiplier = 10f;
     public float spacingIndex = 1;
     public Gradient gradient;
+    public bool UpdateInRealTime = false;
 
     private Mesh mesh;
     private Vector3[] vertices;
@@ -26,8 +27,11 @@ public class ProceduralTerrain : MonoBehaviour
 
     void Update()
     {
-        //CreateTerrain();
-        //UpdateMesh();
+        if(UpdateInRealTime){
+            CreateTerrain();
+            UpdateMesh();
+        }
+        
     }
 
 
