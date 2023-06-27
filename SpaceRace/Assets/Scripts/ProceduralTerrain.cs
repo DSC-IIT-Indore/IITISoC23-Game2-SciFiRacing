@@ -44,8 +44,8 @@ public class ProceduralTerrain : MonoBehaviour
         {
             for (int x = 0; x <= width; x++)
             {
-                float _x = x + transform.position.x;     // Adjusted x, z
-                float _z = z + transform.position.z;
+                float _x = x + (int)transform.position.x;     // Adjusted x, z
+                float _z = z + (int)transform.position.z;
 
                 float y = Mathf.PerlinNoise(_x * scale, _z * scale) * heightMultiplier;
                 float y1 = Mathf.PerlinNoise(_x * scale*3, _z * scale*3) * heightMultiplier/4;
