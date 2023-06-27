@@ -16,7 +16,7 @@ public class ProceduralTerrain : MonoBehaviour
     private Vector3[] vertices;
     private int[] triangles;
     private float minTerrainHeight, maxTerrainHeight;
-    void Start()
+    void Awake()
     {
         mesh = new Mesh();
         GetComponent<MeshFilter>().mesh = mesh;
@@ -34,7 +34,6 @@ public class ProceduralTerrain : MonoBehaviour
         
     }
 
-
     private void CreateTerrain()
     {
         vertices = new Vector3[(width + 1) * (length + 1)];
@@ -45,12 +44,14 @@ public class ProceduralTerrain : MonoBehaviour
         {
             for (int x = 0; x <= width; x++)
             {
+                float _x = x + transform.position.x;     // Adjusted x, z
+                float _z = z + transform.position.z;
 
-                float y = Mathf.PerlinNoise(x * scale, z * scale) * heightMultiplier;
-                float y1 = Mathf.PerlinNoise(x * scale*3, z * scale*3) * heightMultiplier/4;
+                float y = Mathf.PerlinNoise(_x * scale, _z * scale) * heightMultiplier;
+                float y1 = Mathf.PerlinNoise(_x * scale*3, _z * scale*3) * heightMultiplier/4;
 
                 y += y1;
-                vertices[vertIndex] = new Vector3(x*spacingIndex, y, z*spacingIndex);
+                vertices[vertIndex] = new Vector3(_x*spacingIndex, y, _z*spacingIndex);
 
                 if(y > maxTerrainHeight) maxTerrainHeight = y;
                 if(y < minTerrainHeight) minTerrainHeight = y;
@@ -97,15 +98,4 @@ public class ProceduralTerrain : MonoBehaviour
         mesh.RecalculateNormals();
     }
 
-    private void OnDrawGizmos()
-    {
-        if (vertices == null)
-            return;
-
-        Gizmos.color = Color.red;
-        for (int i = 0; i < vertices.Length; i++)
-        {
-            Gizmos.DrawSphere(vertices[i], 0.1f);
-        }
-    }
 }
