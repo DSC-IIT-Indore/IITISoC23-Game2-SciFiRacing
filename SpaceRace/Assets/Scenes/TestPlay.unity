@@ -26,7 +26,7 @@ RenderSettings:
   m_AmbientIntensity: 1
   m_AmbientMode: 0
   m_SubtractiveShadowColor: {r: 0.42, g: 0.478, b: 0.627, a: 1}
-  m_SkyboxMaterial: {fileID: 2100000, guid: 5d133deeaa66ed445853e946ff25e073, type: 2}
+  m_SkyboxMaterial: {fileID: 2100000, guid: c52c5d7968fa6c9499b0b5752f899bfb, type: 2}
   m_HaloStrength: 0.5
   m_FlareStrength: 1
   m_FlareFadeSpeed: 3
@@ -38,7 +38,7 @@ RenderSettings:
   m_ReflectionIntensity: 1
   m_CustomReflection: {fileID: 0}
   m_Sun: {fileID: 0}
-  m_IndirectSpecularColor: {r: 0.21108195, g: 0.05813718, b: 0.03601958, a: 1}
+  m_IndirectSpecularColor: {r: 0.7390268, g: 0.43944666, b: 0.23707335, a: 1}
   m_UseRadianceAmbientProbe: 0
 --- !u!157 &3
 LightmapSettings:
@@ -737,15 +737,15 @@ MonoBehaviour:
     serializedVersion: 2
     key0: {r: 0.99215686, g: 0, b: 0.008976547, a: 1}
     key1: {r: 0.7924528, g: 0.24466391, b: 0.11512991, a: 1}
-    key2: {r: 1, g: 0.3360744, b: 0.0037735105, a: 0}
-    key3: {r: 0.3803922, g: 0.18823531, b: 0.15294118, a: 0}
+    key2: {r: 0.3803922, g: 0.18823531, b: 0.15294118, a: 0}
+    key3: {r: 1, g: 0.3360744, b: 0.0037735105, a: 0}
     key4: {r: 0, g: 0, b: 0, a: 0}
     key5: {r: 0, g: 0, b: 0, a: 0}
     key6: {r: 0, g: 0, b: 0, a: 0}
     key7: {r: 0, g: 0, b: 0, a: 0}
     ctime0: 0
-    ctime1: 27756
-    ctime2: 47417
+    ctime1: 33346
+    ctime2: 53006
     ctime3: 65535
     ctime4: 0
     ctime5: 0
@@ -1023,7 +1023,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 842fb2115a3622842889936337dcbc79, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  acceleration: 3500
+  acceleration: 4000
   maxSpeed: 7500
   maxRollAngle: 0.5
   maxPitchAngle: 0.8
