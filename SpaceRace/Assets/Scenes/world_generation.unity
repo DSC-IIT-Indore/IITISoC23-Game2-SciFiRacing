@@ -729,7 +729,7 @@ MonoBehaviour:
   width: 100
   length: 100
   scale: 0.04
-  heightMultiplier: 1502
+  heightMultiplier: 500
   spacingIndex: 50
   gradient:
     serializedVersion: 2
@@ -973,7 +973,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 0
+  m_IsActive: 1
 --- !u!1 &7651343482117874875
 GameObject:
   m_ObjectHideFlags: 0
