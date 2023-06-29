@@ -20,7 +20,11 @@ EditorUserSettings:
     RecentlyUsedSceneGuid-4:
       value: 5a08575f5207595a0f5d59741173094444164f7d7d2a23317c7a4465bbe1646d
       flags: 0
+<<<<<<< HEAD
     RecentlyUsedSceneGuid-5:
+=======
+    RecentlyUsedSceneGuid-2:
+>>>>>>> 0bfda091cee2e001891c0d94061f4d7ecee77bb1
       value: 020851045c040c08095d5c774921084440154a73282922637c284e30b0e16d6b
       flags: 0
     UnityEditor.ShaderGraph.Blackboard:
