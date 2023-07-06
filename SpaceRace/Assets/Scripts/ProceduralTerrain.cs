@@ -8,6 +8,7 @@ public class ProceduralTerrain : MonoBehaviour
     public int length = 100;
     public float scale = 10f;
     public float heightMultiplier = 10f;
+    public float heightExponent = 1f;
     public float spacingIndex = 1;
     public Gradient gradient;
     public bool UpdateInRealTime = false;
@@ -16,7 +17,7 @@ public class ProceduralTerrain : MonoBehaviour
     private Vector3[] vertices;
     private int[] triangles;
     private float minTerrainHeight, maxTerrainHeight;
-    void Awake()
+    void Start()
     {
         mesh = new Mesh();
         GetComponent<MeshFilter>().mesh = mesh;
@@ -46,13 +47,12 @@ public class ProceduralTerrain : MonoBehaviour
             {
                 float _x = x + (int)transform.position.x;     // Adjusted x, z
                 float _z = z + (int)transform.position.z;
-
                 double simplexValue = Mathf.PerlinNoise(_x * scale, _z * scale);
                 double perlinValue = Mathf.PerlinNoise(_x * scale * 3, _z * scale * 3);
                 double ridgedValue = Mathf.PerlinNoise(_x * scale * 2, _z * scale * 2);
 
                 float y = (float)((simplexValue * 0.5 + perlinValue * 0.3 + ridgedValue * 0.2) * heightMultiplier);
-
+                y = Mathf.Pow(y, heightExponent);
                 vertices[vertIndex] = new Vector3(_x*spacingIndex, y, _z*spacingIndex);
 
                 if(y > maxTerrainHeight) maxTerrainHeight = y;
@@ -84,7 +84,7 @@ public class ProceduralTerrain : MonoBehaviour
         }
     }
 
-    private void UpdateMesh()
+    public void UpdateMesh()
     {
         mesh.Clear();
         mesh.vertices = vertices;
