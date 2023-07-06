@@ -7,7 +7,6 @@ public class TunnelGenerator : MonoBehaviour
     public int length = 100;
     public float scale = 10f;
     public float heightMultiplier = 10f;
-
     private Mesh mesh;
     private Vector3[] vertices;
     private int[] triangles;

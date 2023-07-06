@@ -1,22 +1,34 @@
 using UnityEngine;
 using System.Collections;
 
+// This script generates a procedurally generated terrain using Perlin Noise
 [RequireComponent(typeof(MeshFilter), typeof(MeshRenderer))]
 public class ProceduralTerrain : MonoBehaviour
 {
-    public int width = 100;
-    public int length = 100;
-    public float scale = 10f;
-    public float heightMultiplier = 10f;
-    public float heightExponent = 1f;
-    public float spacingIndex = 1;
-    public Gradient gradient;
-    public bool UpdateInRealTime = false;
+    
+    // The following variables are used to generate the terrain
+    [Header("Terrain Settings")] // Header for the inspector
+    public int width = 100; // Number of vertices in the x axis
+    public int length = 100; // Number of vertices in the z axis
+    public float scale = 10f; // Scale of the noise
+    public float heightMultiplier = 10f; // Height multiplier of the terrain
+    public float heightExponent = 1f; // Height exponent of the terrain
+    public float spacingIndex = 1; // Spacing between vertices 
+    public Gradient gradient; // Gradient of the terrain
+    public bool UpdateInRealTime = false; // Update the terrain in real time
+    
+    
+    [Header("Track Generator Settings")] // Header for the inspector
+    public int numberOfPoints = 10; // Number of points in the track
+    public float noiseScale = 10f; // Scale of the noise
+    public float noiseHeightMultiplier = 10f; // Height multiplier of the noise
+    public float maxThreshold = 0.5f; // Threshold of the noise
 
-    private Mesh mesh;
-    private Vector3[] vertices;
-    private int[] triangles;
-    private float minTerrainHeight, maxTerrainHeight;
+
+    private Mesh mesh; // Mesh of the terrain
+    private Vector3[] vertices; // Vertices of the terrain
+    private int[] triangles; // Triangles of the terrain
+    private float minTerrainHeight, maxTerrainHeight; // Min and max height of the terrain
     void Start()
     {
         mesh = new Mesh();
@@ -28,8 +40,10 @@ public class ProceduralTerrain : MonoBehaviour
 
     void Update()
     {
+        // If the user wants to update the terrain in real time, then update the terrain at each frame
         if(UpdateInRealTime){
             CreateTerrain();
+            GenerateTrack();
             UpdateMesh();
         }
         
@@ -45,22 +59,29 @@ public class ProceduralTerrain : MonoBehaviour
         {
             for (int x = 0; x <= width; x++)
             {
-                float _x = x + (int)transform.position.x;     // Adjusted x, z
-                float _z = z + (int)transform.position.z;
+                // Generate the height of the terrain using Perlin Noise
+                float _x = x + (int)transform.position.x; // Offset the vertices so that the terrain is centered
+                float _z = z + (int)transform.position.z; // Offset the vertices so that the terrain is centered
+                
+                // Generate the height of the terrain using Perlin Noise
                 double simplexValue = Mathf.PerlinNoise(_x * scale, _z * scale);
                 double perlinValue = Mathf.PerlinNoise(_x * scale * 3, _z * scale * 3);
                 double ridgedValue = Mathf.PerlinNoise(_x * scale * 2, _z * scale * 2);
 
                 float y = (float)((simplexValue * 0.5 + perlinValue * 0.3 + ridgedValue * 0.2) * heightMultiplier);
                 y = Mathf.Pow(y, heightExponent);
+
+                // Set the vertices
                 vertices[vertIndex] = new Vector3(_x*spacingIndex, y, _z*spacingIndex);
 
+                // Get the min and max height of the terrain
                 if(y > maxTerrainHeight) maxTerrainHeight = y;
                 if(y < minTerrainHeight) minTerrainHeight = y;
                 vertIndex++;
             }
         }
 
+        // Generate the triangles
         int triIndex = 0;
         int vertCount = width + 1;
         for (int z = 0; z < length; z++)
@@ -91,6 +112,7 @@ public class ProceduralTerrain : MonoBehaviour
         mesh.triangles = triangles;
 
         Color[] colors = new Color[vertices.Length];
+        // Set the color of the vertices based on the height of the terrain
         for (int i = 0; i < vertices.Length; i++)
         {
             float normalizedHeight = Mathf.InverseLerp(minTerrainHeight, maxTerrainHeight, vertices[i].y);
@@ -98,6 +120,48 @@ public class ProceduralTerrain : MonoBehaviour
         }
         mesh.colors = colors;
         mesh.RecalculateNormals();
+    }
+
+
+    private void GenerateTrack()
+    {
+        // Pick the midpoint of a random edge of the terrain, and make it the starting point of the track (the first node). 
+        // Now pick a random edge of the terrain, and make it the ending point of the track (the last node).
+        // Now generate a random path between the first and last nodes. That's your track.
+        
+        Random.InitState(System.DateTime.Now.Millisecond);
+        int startEdge = Random.Range(1, 5);
+        // 1 = bottom, 2 = left, 3 = top, 4 = right;
+
+        int endEdge = Random.Range(1, 5);
+        if (endEdge == startEdge)
+        {
+            // If the end edge is the same as the start edge, then choose the opposite edge
+            endEdge = (endEdge + 2) % 4;
+        }
+
+        // Generate random points throughout the terrain to make the track
+        // The track will be a series of points that are connected together
+        // The points will be generated using perlin noise
+        // The points will be generated between the start and end edge
+        // The points will be generated in a way that the track is not too close to the edge of the terrain
+        // The points will be generated in a way that the track is not too close to the other points
+
+        for (int z = 0; z <= length; z++)
+        {
+            for (int x = 0; x <= width; x++)
+            {
+                // set the seed of perlin noise
+                Random.InitState(System.DateTime.Now.Millisecond);
+                float val = Mathf.PerlinNoise(x * noiseScale, z * noiseScale);
+
+                if (val > maxThreshold)
+                {
+                    vertices[z * width + x] = new Vector3(x, 0, z);
+                }
+            }
+        }
+
     }
 
 }

@@ -642,7 +642,6 @@ GameObject:
   - component: {fileID: 1218200041}
   - component: {fileID: 1218200044}
   - component: {fileID: 1218200045}
-  - component: {fileID: 1218200046}
   m_Layer: 0
   m_Name: Map
   m_TagString: Untagged
@@ -786,19 +785,6 @@ MeshCollider:
   m_Convex: 0
   m_CookingOptions: 30
   m_Mesh: {fileID: 0}
---- !u!114 &1218200046
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1218200039}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 0c8e734bd09eb5b498de4653843ebbbc, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  terrainGenerator: {fileID: 0}
 --- !u!4 &186546585967097985
 Transform:
   m_ObjectHideFlags: 0
