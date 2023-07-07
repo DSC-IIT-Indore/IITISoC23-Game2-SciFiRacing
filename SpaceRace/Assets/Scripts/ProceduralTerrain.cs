@@ -122,7 +122,6 @@ public class ProceduralTerrain : MonoBehaviour
         mesh.RecalculateNormals();
     }
 
-
     private void GenerateTrack()
     {
         // Pick the midpoint of a random edge of the terrain, and make it the starting point of the track (the first node). 
@@ -146,19 +145,13 @@ public class ProceduralTerrain : MonoBehaviour
         // The points will be generated between the start and end edge
         // The points will be generated in a way that the track is not too close to the edge of the terrain
         // The points will be generated in a way that the track is not too close to the other points
-
         for (int z = 0; z <= length; z++)
         {
             for (int x = 0; x <= width; x++)
-            {
-                // set the seed of perlin noise
-                Random.InitState(System.DateTime.Now.Millisecond);
+            {                
                 float val = Mathf.PerlinNoise(x * noiseScale, z * noiseScale);
+                
 
-                if (val > maxThreshold)
-                {
-                    vertices[z * width + x] = new Vector3(x, 0, z);
-                }
             }
         }
 
