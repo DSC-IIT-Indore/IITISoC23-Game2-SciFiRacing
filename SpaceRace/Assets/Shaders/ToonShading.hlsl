@@ -29,3 +29,4 @@ in float ToonRampOffset, out float3 ToonRampOutput, out float3 Direction)
         Direction = light.direction;
         #endif
 }
+adsf
