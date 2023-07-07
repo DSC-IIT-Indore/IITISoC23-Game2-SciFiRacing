@@ -762,7 +762,12 @@ MonoBehaviour:
     m_ColorSpace: -1
     m_NumColorKeys: 4
     m_NumAlphaKeys: 2
-  UpdateInRealTime: 0
+  UpdateInRealTime: 1
+  numberOfPoints: 10
+  noiseScale: 0.01
+  noiseHeightMultiplier: 50
+  maxThreshold: 0.5
+  trackWidth: 20
 --- !u!64 &1218200045
 MeshCollider:
   m_ObjectHideFlags: 0

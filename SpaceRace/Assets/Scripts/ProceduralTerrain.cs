@@ -1,6 +1,7 @@
 using UnityEngine;
 using System.Collections;
 
+
 // This script generates a procedurally generated terrain using Perlin Noise
 [RequireComponent(typeof(MeshFilter), typeof(MeshRenderer))]
 public class ProceduralTerrain : MonoBehaviour
@@ -20,9 +21,12 @@ public class ProceduralTerrain : MonoBehaviour
     
     [Header("Track Generator Settings")] // Header for the inspector
     public int numberOfPoints = 10; // Number of points in the track
+
+    [Range(0, 0.5f)]
     public float noiseScale = 10f; // Scale of the noise
     public float noiseHeightMultiplier = 10f; // Height multiplier of the noise
     public float maxThreshold = 0.5f; // Threshold of the noise
+    public int trackWidth = 4; // Width of the track in vertices
 
 
     private Mesh mesh; // Mesh of the terrain
@@ -34,6 +38,7 @@ public class ProceduralTerrain : MonoBehaviour
         mesh = new Mesh();
         GetComponent<MeshFilter>().mesh = mesh;
         CreateTerrain();
+        GenerateTrack();
         UpdateMesh();
         GetComponent<MeshCollider>().sharedMesh = mesh;
     }
@@ -147,12 +152,21 @@ public class ProceduralTerrain : MonoBehaviour
         // The points will be generated in a way that the track is not too close to the other points
         for (int z = 0; z <= length; z++)
         {
-            for (int x = 0; x <= width; x++)
-            {                
-                float val = Mathf.PerlinNoise(x * noiseScale, z * noiseScale);
-                
+            float _z = z + (int)transform.position.z; 
+            float _x = Mathf.PerlinNoise1D(_z * noiseScale);
+            _x = _x*2 - 1; // Make the value between -1 and 1
+            int x = width/2 + (int) (_x * noiseHeightMultiplier);
 
+            vertices[z * (width + 1) + x].y = 0;
+            for(int i=1; i<=trackWidth/2; i++){
+                vertices[z * (width + 1) + (x > trackWidth ? (x - i) : (x + i))].y = 0;
+                vertices[z * (width + 1) + (x > width+1-trackWidth ? (x - i) : (x + i))].y = 0; 
             }
+            for(int i=trackWidth/2; i<=trackWidth; i++){
+                vertices[z * (width + 1) + (x > trackWidth ? (x - i) : (x + i))].y /= 2/i;
+                vertices[z * (width + 1) + (x > width+1-trackWidth ? (x - i) : (x + i))].y /= 2/i; 
+            }
+            
         }
 
     }
