@@ -209,7 +209,8 @@ Transform:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 330585543}
-  m_LocalRotation: {x: 0.18910751, y: 0.000000008447955, z: -0.0000000016269276, w: 0.9819564}
+  m_LocalRotation: {x: 0.18910751, y: -0.0000000084479606, z: 0.0000000016269286,
+    w: 0.9819564}
   m_LocalPosition: {x: 2370, y: 425.33298, z: 1534.11}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
@@ -463,7 +464,7 @@ MonoBehaviour:
   m_FollowOffset: {x: 0, y: 4, z: -10}
   m_XDamping: 0.25
   m_YDamping: 0.25
-  m_ZDamping: 0.25
+  m_ZDamping: 0.2
   m_AngularDampingMode: 0
   m_PitchDamping: 0
   m_YawDamping: 0
@@ -571,7 +572,8 @@ Transform:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 808862390}
-  m_LocalRotation: {x: 0.18910751, y: 0.000000008447955, z: -0.0000000016269276, w: 0.9819564}
+  m_LocalRotation: {x: 0.18910751, y: -0.0000000084479606, z: 0.0000000016269286,
+    w: 0.9819564}
   m_LocalPosition: {x: 2370, y: 425.33298, z: 1534.11}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
@@ -2333,8 +2335,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 842fb2115a3622842889936337dcbc79, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  acceleration: 4000
-  maxSpeed: 7500
+  acceleration: 5000
+  maxSpeed: 8000
   maxRollAngle: 0.5
   maxPitchAngle: 0.8
   tiltConstant: 10

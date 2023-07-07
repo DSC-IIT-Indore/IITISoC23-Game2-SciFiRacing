@@ -131,25 +131,10 @@ public class ProceduralTerrain : MonoBehaviour
     {
         // Pick the midpoint of a random edge of the terrain, and make it the starting point of the track (the first node). 
         // Now pick a random edge of the terrain, and make it the ending point of the track (the last node).
-        // Now generate a random path between the first and last nodes. That's your track.
+        // Now generate a random path between the first and last nodes. That's the track.
         
         Random.InitState(System.DateTime.Now.Millisecond);
-        int startEdge = Random.Range(1, 5);
-        // 1 = bottom, 2 = left, 3 = top, 4 = right;
 
-        int endEdge = Random.Range(1, 5);
-        if (endEdge == startEdge)
-        {
-            // If the end edge is the same as the start edge, then choose the opposite edge
-            endEdge = (endEdge + 2) % 4;
-        }
-
-        // Generate random points throughout the terrain to make the track
-        // The track will be a series of points that are connected together
-        // The points will be generated using perlin noise
-        // The points will be generated between the start and end edge
-        // The points will be generated in a way that the track is not too close to the edge of the terrain
-        // The points will be generated in a way that the track is not too close to the other points
         for (int z = 0; z <= length; z++)
         {
             float _z = z + (int)transform.position.z; 
