@@ -767,7 +767,8 @@ MonoBehaviour:
   noiseScale: 0.01
   noiseHeightMultiplier: 50
   maxThreshold: 0.5
-  trackWidth: 20
+  trackWidth: 8
+  edgeSmoothing: 1
 --- !u!64 &1218200045
 MeshCollider:
   m_ObjectHideFlags: 0

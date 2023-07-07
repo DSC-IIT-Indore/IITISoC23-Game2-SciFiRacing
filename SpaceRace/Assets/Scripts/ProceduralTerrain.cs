@@ -27,7 +27,7 @@ public class ProceduralTerrain : MonoBehaviour
     public float noiseHeightMultiplier = 10f; // Height multiplier of the noise
     public float maxThreshold = 0.5f; // Threshold of the noise
     public int trackWidth = 4; // Width of the track in vertices
-
+    public float edgeSmoothing = 2f; // Smoothing of the edges of the track
 
     private Mesh mesh; // Mesh of the terrain
     private Vector3[] vertices; // Vertices of the terrain
@@ -157,14 +157,15 @@ public class ProceduralTerrain : MonoBehaviour
             _x = _x*2 - 1; // Make the value between -1 and 1
             int x = width/2 + (int) (_x * noiseHeightMultiplier);
 
-            vertices[z * (width + 1) + x].y = 0;
+            int vertIndex = z * (width + 1) + x;
+            vertices[vertIndex].y = 0;
             for(int i=1; i<=trackWidth/2; i++){
-                vertices[z * (width + 1) + (x > trackWidth ? (x - i) : (x + i))].y = 0;
-                vertices[z * (width + 1) + (x > width+1-trackWidth ? (x - i) : (x + i))].y = 0; 
+                vertices[vertIndex+i].y = 0;
+                vertices[vertIndex-i].y = 0; 
             }
             for(int i=trackWidth/2; i<=trackWidth; i++){
-                vertices[z * (width + 1) + (x > trackWidth ? (x - i) : (x + i))].y /= 2/i;
-                vertices[z * (width + 1) + (x > width+1-trackWidth ? (x - i) : (x + i))].y /= 2/i; 
+                vertices[vertIndex+i].y = Mathf.Lerp(0, vertices[vertIndex+trackWidth].y, edgeSmoothing*((i-trackWidth/2)/(trackWidth/2f)));
+                vertices[vertIndex-i].y = Mathf.Lerp(0, vertices[vertIndex-trackWidth].y, edgeSmoothing*((i-trackWidth/2)/(trackWidth/2f)));
             }
             
         }
