@@ -133,14 +133,15 @@ public class ProceduralTerrain : MonoBehaviour
         // Now pick a random edge of the terrain, and make it the ending point of the track (the last node).
         // Now generate a random path between the first and last nodes. That's the track.
         
-        Random.InitState(System.DateTime.Now.Millisecond);
 
-        for (int z = 0; z <= length; z++)
+        for (int x=width/2, z = 0; z <= length; z++)
         {
             float _z = z + (int)transform.position.z; 
-            float _x = Mathf.PerlinNoise1D(_z * noiseScale);
-            _x = _x*2 - 1; // Make the value between -1 and 1
-            int x = width/2 + (int) (_x * noiseHeightMultiplier);
+            float _x = (int)transform.position.x;
+
+            float directionOffset = Mathf.PerlinNoise(x * noiseScale, _z * noiseScale);
+            directionOffset = (directionOffset*2 - 1) * noiseHeightMultiplier; // Make the value between -1 and 1
+            x = width/2 + (int) (directionOffset);
 
             int vertIndex = z * (width + 1) + x;
 
