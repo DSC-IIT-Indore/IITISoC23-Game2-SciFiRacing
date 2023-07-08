@@ -131,14 +131,13 @@ public class ProceduralTerrain : MonoBehaviour
         // Now generate a random path between the first and last nodes. That's the track.
         
 
-        for (int x=width/2, z = 0; z <= length; z++)
+        for (int z = 0; z <= length; z++)
         {
             float _z = z + (int)transform.position.z; 
-            float _x = (int)transform.position.x;
 
-            float directionOffset = Mathf.PerlinNoise(x * noiseScale, _z * noiseScale);
+            float directionOffset = Mathf.PerlinNoise1D(_z * noiseScale);
             directionOffset = (directionOffset*2 - 1) * noiseHeightMultiplier; // Make the value between -1 and 1
-            x = width/2 + (int) (directionOffset);
+            int x = width/2 + (int) (directionOffset);
 
             int vertIndex = z * (width + 1) + x;
 
@@ -153,6 +152,7 @@ public class ProceduralTerrain : MonoBehaviour
             for(int i=trackWidth/2; i<=trackWidth; i++){
                 vertices[vertIndex+i].y = Mathf.Lerp(vertices[vertIndex+trackWidth/2].y, vertices[vertIndex+trackWidth].y, 
                                                     edgeSmoothing*((i-trackWidth/2)/(trackWidth/2f)));
+                                                    
                 vertices[vertIndex-i].y = Mathf.Lerp(vertices[vertIndex-trackWidth/2].y, vertices[vertIndex-trackWidth].y, 
                                                     edgeSmoothing*((i-trackWidth/2)/(trackWidth/2f)));
             }
