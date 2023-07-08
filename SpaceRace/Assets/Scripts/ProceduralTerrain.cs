@@ -20,12 +20,9 @@ public class ProceduralTerrain : MonoBehaviour
     
     
     [Header("Track Generator Settings")] // Header for the inspector
-    public int numberOfPoints = 10; // Number of points in the track
-
     [Range(0, 0.5f)]
     public float noiseScale = 10f; // Scale of the noise
     public float noiseHeightMultiplier = 10f; // Height multiplier of the noise
-    public float maxThreshold = 0.5f; // Threshold of the noise
     public int trackWidth = 4; // Width of the track in vertices
     public float edgeSmoothing = 2f; // Smoothing of the edges of the track
 
