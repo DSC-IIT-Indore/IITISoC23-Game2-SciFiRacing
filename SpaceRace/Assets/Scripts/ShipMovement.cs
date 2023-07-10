@@ -49,7 +49,7 @@ public class ShipMovement : MonoBehaviour
         rollInput *= velMag;
         
         pitchRotation = transform.forward.y*-pitchInput <= maxPitchAngle && pitchInput != 0 
-                        ? Quaternion.Euler(pitchInput * pitchSpeed * Time.fixedDeltaTime, 0f, 0f)
+                        ? Quaternion.Euler(pitchInput * pitchSpeed * Time.fixedDeltaTime * -1, 0f, 0f)
                         : Quaternion.Lerp(pitchRotation, Quaternion.identity, tiltConstant*Time.fixedDeltaTime);
         
         yawRotation = Quaternion.Euler(0f, yawInput * yawSpeed * Time.fixedDeltaTime, 0f);
