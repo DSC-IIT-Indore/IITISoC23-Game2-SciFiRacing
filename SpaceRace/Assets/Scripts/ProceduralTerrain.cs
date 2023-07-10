@@ -11,7 +11,7 @@ public class ProceduralTerrain : MonoBehaviour
     [Header("Terrain Settings")] // Header for the inspector
     public int width = 100; // Number of vertices in the x axis
     public int length = 100; // Number of vertices in the z axis
-    public float scale = 10f; // Scale of the noise
+    public float scaleA, scaleB, scaleC; // Scale of the noise
     public float heightMultiplier = 10f; // Height multiplier of the terrain
     public float heightExponent = 1f; // Height exponent of the terrain
     public float spacingIndex = 1; // Spacing between vertices 
@@ -66,9 +66,9 @@ public class ProceduralTerrain : MonoBehaviour
                 float _z = z + (int)transform.position.z; // Offset the vertices so that the terrain is centered
                 
                 // Generate the height of the terrain using Perlin Noise
-                double simplexValue = Mathf.PerlinNoise(_x * scale, _z * scale);
-                double perlinValue = Mathf.PerlinNoise(_x * scale * 3, _z * scale * 3);
-                double ridgedValue = Mathf.PerlinNoise(_x * scale * 2, _z * scale * 2);
+                double simplexValue = Mathf.PerlinNoise(_x * scaleA, _z * scaleA);
+                double perlinValue = Mathf.PerlinNoise(_x * scaleB * 3, _z * scaleB * 3);
+                double ridgedValue = Mathf.PerlinNoise(_x * scaleC * 2, _z * scaleC * 2);
 
                 float y = (float)((simplexValue * 0.5 + perlinValue * 0.3 + ridgedValue * 0.2) * heightMultiplier);
                 y = Mathf.Pow(y, heightExponent);
