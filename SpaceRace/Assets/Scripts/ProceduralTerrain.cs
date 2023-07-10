@@ -75,8 +75,8 @@ public class ProceduralTerrain : MonoBehaviour
             for (int x = 0; x <= width; x++)
             {
                 // Generate the height of the terrain using Perlin Noise
-                float _x = x + (int)transform.position.x; // Offset the vertices so that the terrain is centered
-                float _z = z + (int)transform.position.z; // Offset the vertices so that the terrain is centered
+                float _x = x + transform.position.x - width/2; // Offset the vertices so that the terrain is centered
+                float _z = z + transform.position.z - length/2; // Offset the vertices so that the terrain is centered
                 
                 // Generate the height of the terrain using Perlin Noise
                 double simplexValue = Mathf.PerlinNoise(_x * scaleA, _z * scaleA);
