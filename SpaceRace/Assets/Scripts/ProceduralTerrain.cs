@@ -6,6 +6,7 @@ using System.Collections;
 [RequireComponent(typeof(MeshFilter), typeof(MeshRenderer))]
 public class ProceduralTerrain : MonoBehaviour
 {
+    public TerrainSetting terrainSetting;
     
     // The following variables are used to generate the terrain
     [Header("Terrain Settings")] // Header for the inspector
@@ -16,8 +17,8 @@ public class ProceduralTerrain : MonoBehaviour
     public float heightExponent = 1f; // Height exponent of the terrain
     public float spacingIndex = 1; // Spacing between vertices 
     public Gradient gradient; // Gradient of the terrain
+
     public bool UpdateInRealTime = false; // Update the terrain in real time
-    
     
     [Header("Track Generator Settings")] // Header for the inspector
     [Range(0, 0.5f)]
@@ -26,12 +27,24 @@ public class ProceduralTerrain : MonoBehaviour
     public int trackWidth = 4; // Width of the track in vertices
     public float edgeSmoothing = 2f; // Smoothing of the edges of the track
 
+
     private Mesh mesh; // Mesh of the terrain
     private Vector3[] vertices; // Vertices of the terrain
     private int[] triangles; // Triangles of the terrain
     private float minTerrainHeight, maxTerrainHeight; // Min and max height of the terrain
     void Start()
     {
+        terrainSetting = (TerrainSetting)Resources.Load("TerrainSetting", typeof(TerrainSetting));
+        //Set the terrain settings from the TerrainSetting scriptable object
+        width = terrainSetting.width;
+        length = terrainSetting.length;
+        scaleA = terrainSetting.scaleA;
+        scaleB = terrainSetting.scaleB;
+        scaleC = terrainSetting.scaleC;
+        heightMultiplier = terrainSetting.heightMultiplier;
+        spacingIndex = terrainSetting.spacingIndex;
+        gradient = terrainSetting.gradient;
+
         mesh = new Mesh();
         GetComponent<MeshFilter>().mesh = mesh;
         CreateTerrain();
@@ -71,7 +84,7 @@ public class ProceduralTerrain : MonoBehaviour
                 double ridgedValue = Mathf.PerlinNoise(_x * scaleC * 2, _z * scaleC * 2);
 
                 float y = (float)((simplexValue * 0.5 + perlinValue * 0.3 + ridgedValue * 0.2) * heightMultiplier);
-                y = Mathf.Pow(y, heightExponent);
+                //y = Mathf.Pow(y, heightExponent);
 
                 // Set the vertices
                 vertices[vertIndex] = new Vector3(_x*spacingIndex, y, _z*spacingIndex);
@@ -130,7 +143,6 @@ public class ProceduralTerrain : MonoBehaviour
         // Now pick a random edge of the terrain, and make it the ending point of the track (the last node).
         // Now generate a random path between the first and last nodes. That's the track.
         
-
         for (int z = 0; z <= length; z++)
         {
             float _z = z + (int)transform.position.z; 
