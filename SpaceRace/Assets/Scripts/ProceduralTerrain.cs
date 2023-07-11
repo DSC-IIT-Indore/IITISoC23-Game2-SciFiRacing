@@ -7,7 +7,7 @@ using System.Collections;
 public class ProceduralTerrain : MonoBehaviour
 {
     public TerrainSetting terrainSetting;
-    
+
     // The following variables are used to generate the terrain
     [Header("Terrain Settings")] // Header for the inspector
     public int width = 100; // Number of vertices in the x axis
@@ -26,16 +26,22 @@ public class ProceduralTerrain : MonoBehaviour
     public float noiseHeightMultiplier = 10f; // Height multiplier of the noise
     public int trackWidth = 4; // Width of the track in vertices
     public float edgeSmoothing = 2f; // Smoothing of the edges of the track
-
+    public int trackID = 13;
 
     private Mesh mesh; // Mesh of the terrain
     private Vector3[] vertices; // Vertices of the terrain
     private int[] triangles; // Triangles of the terrain
     private float minTerrainHeight, maxTerrainHeight; // Min and max height of the terrain
     
-    void Start()
+
+    void Awake()
     {
         Generate();
+    }
+
+    public void ResetPosition()
+    {
+        transform.position = Vector3.zero;
     }
 
     public void Generate()
@@ -54,7 +60,7 @@ public class ProceduralTerrain : MonoBehaviour
         mesh = new Mesh();
         GetComponent<MeshFilter>().mesh = mesh;
         CreateTerrain();
-        GenerateTrack();
+        GenerateTrack(trackID);
         UpdateMesh();
         GetComponent<MeshCollider>().sharedMesh = mesh;
     }
@@ -64,7 +70,7 @@ public class ProceduralTerrain : MonoBehaviour
         // If the user wants to update the terrain in real time, then update the terrain at each frame
         if(UpdateInRealTime){
             CreateTerrain();
-            GenerateTrack();
+            GenerateTrack(13);
             UpdateMesh();
         }
         
@@ -143,12 +149,13 @@ public class ProceduralTerrain : MonoBehaviour
         mesh.RecalculateNormals();
     }
 
-    private void GenerateTrack()
+    private void GenerateTrack(int ID)
     {
         // Pick the midpoint of a random edge of the terrain, and make it the starting point of the track (the first node). 
         // Now pick a random edge of the terrain, and make it the ending point of the track (the last node).
         // Now generate a random path between the first and last nodes. That's the track.
         
+    
         for (int z = 0; z <= length; z++)
         {
             float _z = z + (int)transform.position.z; 
