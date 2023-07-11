@@ -79,15 +79,15 @@ public class ProceduralTerrain : MonoBehaviour
                 float _z = z + transform.position.z - length/2; // Offset the vertices so that the terrain is centered
                 
                 // Generate the height of the terrain using Perlin Noise
-                double simplexValue = Mathf.PerlinNoise(_x * scaleA, _z * scaleA);
-                double perlinValue = Mathf.PerlinNoise(_x * scaleB * 3, _z * scaleB * 3);
-                double ridgedValue = Mathf.PerlinNoise(_x * scaleC * 2, _z * scaleC * 2);
+                double simplexValue = Mathf.PerlinNoise(_x * (spacingIndex/50f) * scaleA, _z * (spacingIndex/50f) * scaleA);
+                double perlinValue = Mathf.PerlinNoise(_x * (spacingIndex/50f) * scaleB * 3, _z * (spacingIndex/50f) * scaleB * 3);
+                double ridgedValue = Mathf.PerlinNoise(_x * (spacingIndex/50f) * scaleC * 2, _z * (spacingIndex/50f) * scaleC * 2);
 
                 float y = (float)((simplexValue * 0.5 + perlinValue * 0.3 + ridgedValue * 0.2) * heightMultiplier);
                 //y = Mathf.Pow(y, heightExponent);
 
                 // Set the vertices
-                vertices[vertIndex] = new Vector3(_x*spacingIndex, y, _z*spacingIndex);
+                vertices[vertIndex] = new Vector3(_x * spacingIndex, y, _z * spacingIndex);
 
                 // Get the min and max height of the terrain
                 if(y > maxTerrainHeight) maxTerrainHeight = y;
