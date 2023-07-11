@@ -306,14 +306,14 @@ public class ProceduralTerrain : MonoBehaviour
     private void GenerateSouthToEast()
     {
         // Generate the track from south to east
-
-        for (int z = 0; z <= length/2; z++)
+        int x = 0;
+        for (int z = 0; z <= length/2 + trackWidth/2+1; z++)
         {
             float _z = z + (int)transform.position.z; 
 
             float directionOffset = Mathf.PerlinNoise1D(_z * noiseScale);
             directionOffset = (directionOffset*2 - 1) * noiseHeightMultiplier; // Make the value between -1 and 1
-            int x = width/2 + (int) (directionOffset);
+            x = width/2 + (int) (directionOffset);
 
             int vertIndex = z * (width + 1) + x;
 
@@ -334,8 +334,9 @@ public class ProceduralTerrain : MonoBehaviour
             }
             
         }
+        x -= trackWidth/2+1;
 
-        for (int x = width/2; x <= width; x++)
+        while (x <= width)
         {
             float _x = x + (int)transform.position.x; 
 
@@ -361,9 +362,10 @@ public class ProceduralTerrain : MonoBehaviour
                 vertices[OffsetZ(vertIndex, -i)].y = Mathf.Lerp(vertices[OffsetZ(vertIndex, -trackWidth/2)].y, vertices[OffsetZ(vertIndex, -trackWidth)].y, 
                                                     edgeSmoothing*((i-trackWidth/2)/(trackWidth/2f)));
             }
-            
-        }
+            x++;
         
+        }
+
     }
 
 }
