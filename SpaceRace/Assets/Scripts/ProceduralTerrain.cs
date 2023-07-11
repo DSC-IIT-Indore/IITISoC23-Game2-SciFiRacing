@@ -249,15 +249,15 @@ public class ProceduralTerrain : MonoBehaviour
             vertices[vertIndex].y -= maxTerrainHeight;
             for(int i=1; i<=trackWidth/2; i++){
                 vertices[OffsetZ(vertIndex, i)].y -= maxTerrainHeight;
-                vertices[OffsetZ(vertIndex, i)].y -= maxTerrainHeight; 
+                vertices[OffsetZ(vertIndex, -i)].y -= maxTerrainHeight; 
             }
 
             // Smooth the edges of the track
             for(int i=trackWidth/2; i<=trackWidth; i++){
-                vertices[vertIndex+i].y = Mathf.Lerp(vertices[OffsetZ(vertIndex, trackWidth/2)].y, vertices[OffsetZ(vertIndex,+trackWidth)].y, 
+                vertices[OffsetZ(vertIndex, i)].y = Mathf.Lerp(vertices[OffsetZ(vertIndex, trackWidth/2)].y, vertices[OffsetZ(vertIndex, trackWidth)].y, 
                                                     edgeSmoothing*((i-trackWidth/2)/(trackWidth/2f)));
                                                     
-                vertices[vertIndex-i].y = Mathf.Lerp(vertices[OffsetZ(vertIndex,-trackWidth/2)].y, vertices[OffsetZ(vertIndex,-trackWidth)].y, 
+                vertices[OffsetZ(vertIndex, -i)].y = Mathf.Lerp(vertices[OffsetZ(vertIndex, -trackWidth/2)].y, vertices[OffsetZ(vertIndex, -trackWidth)].y, 
                                                     edgeSmoothing*((i-trackWidth/2)/(trackWidth/2f)));
             }
             
