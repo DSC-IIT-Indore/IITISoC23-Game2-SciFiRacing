@@ -37,8 +37,7 @@ public class ProceduralTerrain : MonoBehaviour
     public int trackWidth = 4; // Width of the track in vertices
     public float edgeSmoothing = 2f; // Smoothing of the edges of the track
     public TrackID _trackID;
-    [HideInInspector]
-    public int trackID = (int)TrackID.SouthToNorth; // ID of the track
+    private int trackID = (int)TrackID.SouthToNorth; // ID of the track
 
     private Mesh mesh; // Mesh of the terrain
     private Vector3[] vertices; // Vertices of the terrain

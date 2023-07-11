@@ -242,7 +242,8 @@ Transform:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 330585543}
-  m_LocalRotation: {x: 0.18910751, y: 0.000000008447955, z: -0.0000000016269276, w: 0.9819564}
+  m_LocalRotation: {x: 0.18910751, y: -0.0000000084479606, z: 0.0000000016269286,
+    w: 0.9819564}
   m_LocalPosition: {x: 0, y: 1004, z: -10}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
@@ -559,7 +560,7 @@ MonoBehaviour:
   noiseHeightMultiplier: 50
   trackWidth: 15
   edgeSmoothing: 1
-  trackID: 13
+  _trackID: 0
 --- !u!33 &539294961
 MeshFilter:
   m_ObjectHideFlags: 0
@@ -768,7 +769,8 @@ Transform:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 808862390}
-  m_LocalRotation: {x: 0.18910751, y: 0.000000008447955, z: -0.0000000016269276, w: 0.9819564}
+  m_LocalRotation: {x: 0.18910751, y: -0.0000000084479606, z: 0.0000000016269286,
+    w: 0.9819564}
   m_LocalPosition: {x: 0, y: 1004, z: -10}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
@@ -826,12 +828,6 @@ Transform:
   m_Father: {fileID: 0}
   m_RootOrder: 2
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!1 &1218200039 stripped
-GameObject:
-  m_CorrespondingSourceObject: {fileID: 4911347945807509912, guid: 1b93ca6e0d1ec814991b5689a15bd188,
-    type: 3}
-  m_PrefabInstance: {fileID: 1624347930418893625}
-  m_PrefabAsset: {fileID: 0}
 --- !u!1 &1423257497
 GameObject:
   m_ObjectHideFlags: 0
@@ -861,10 +857,10 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 249d2f960c44aad4a8e5dadb05c1f3fe, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  virtualCamera: {fileID: 808862391}
   terrainSetting: {fileID: 0}
   mapChunkPrefab: {fileID: 4911347945807509912, guid: 1b93ca6e0d1ec814991b5689a15bd188,
     type: 3}
-  currentActiveChunk: {fileID: 1218200039}
   maxActiveChunks: 3
 --- !u!4 &1423257499
 Transform:
@@ -994,7 +990,7 @@ MonoBehaviour:
   noiseHeightMultiplier: 50
   trackWidth: 15
   edgeSmoothing: 1
-  trackID: 13
+  _trackID: 0
 --- !u!33 &1959037674
 MeshFilter:
   m_ObjectHideFlags: 0
@@ -1264,6 +1260,11 @@ PrefabInstance:
         type: 3}
       propertyPath: m_Name
       value: Map
+      objectReference: {fileID: 0}
+    - target: {fileID: 4911347945807509912, guid: 1b93ca6e0d1ec814991b5689a15bd188,
+        type: 3}
+      propertyPath: m_IsActive
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 9085212939005214283, guid: 1b93ca6e0d1ec814991b5689a15bd188,
         type: 3}
@@ -2661,7 +2662,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   acceleration: 5000
-  maxSpeed: 1000
+  maxSpeed: 1
   maxRollAngle: 0.5
   maxPitchAngle: 2
   tiltConstant: 10
