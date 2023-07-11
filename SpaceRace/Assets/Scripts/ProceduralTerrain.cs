@@ -44,8 +44,9 @@ public class ProceduralTerrain : MonoBehaviour
         transform.position = Vector3.zero;
     }
 
-    public void Generate()
-    {
+    public void Generate(int _trackID = 13)
+    {   
+        trackID = _trackID;
         terrainSetting = (TerrainSetting)Resources.Load("TerrainSetting", typeof(TerrainSetting));
         //Set the terrain settings from the TerrainSetting scriptable object
         width = terrainSetting.width;

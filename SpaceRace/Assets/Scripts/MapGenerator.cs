@@ -4,6 +4,19 @@ using UnityEngine;
 
 public class MapGenerator : MonoBehaviour
 {
+
+    private Dictionary<int, int[]> mapChunkDictionary = new Dictionary<int, int[]>(){
+        {13, new int[] {13, 14, 12}},
+        {12, new int[] {43, 42}},
+        {14, new int[] {23, 24}},
+
+        {23, new int[] {13, 14, 12}},
+        {24, new int[] {24, 23}},
+        
+        {43, new int[] {13, 14, 12}},
+        {42, new int[] {43, 42}},
+    };
+
     private List<GameObject> mapChunks = new List<GameObject>();
     public TerrainSetting terrainSetting;
     public GameObject mapChunkPrefab;
@@ -22,6 +35,7 @@ public class MapGenerator : MonoBehaviour
         if(mapChunks.Count < maxActiveChunks)
         {
             GenerateMapChunk();
+            Debug.Log(mapChunkDictionary[13][0]);
         }
     }
 
