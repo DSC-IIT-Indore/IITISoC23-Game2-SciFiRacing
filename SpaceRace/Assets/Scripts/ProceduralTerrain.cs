@@ -47,6 +47,7 @@ public class ProceduralTerrain : MonoBehaviour
 
     void Awake()
     {
+        trackID = (int)_trackID;
         Generate();
     }
 
@@ -168,7 +169,37 @@ public class ProceduralTerrain : MonoBehaviour
         // Now pick a random edge of the terrain, and make it the ending point of the track (the last node).
         // Now generate a random path between the first and last nodes. That's the track.
         
-    
+        switch(ID)
+        {
+            case (int)TrackID.SouthToNorth:
+                GenerateSouthToNorth();
+                break;
+            
+            case (int)TrackID.WestToEast:
+                GenerateWestToEast();
+                break;
+
+            default:
+                GenerateSouthToNorth();
+                break;
+        }
+
+    }
+
+    private int OffsetX(int _vertIndex, int _offset)
+    {
+        return _vertIndex + _offset;
+    }
+
+    private int OffsetZ(int _vertIndex, int _offset)
+    {
+        return _vertIndex + _offset * (width + 1);
+    }
+
+    private void GenerateSouthToNorth()
+    {
+        // Generate the track from south to north
+
         for (int z = 0; z <= length; z++)
         {
             float _z = z + (int)transform.position.z; 
@@ -192,6 +223,41 @@ public class ProceduralTerrain : MonoBehaviour
                                                     edgeSmoothing*((i-trackWidth/2)/(trackWidth/2f)));
                                                     
                 vertices[vertIndex-i].y = Mathf.Lerp(vertices[vertIndex-trackWidth/2].y, vertices[vertIndex-trackWidth].y, 
+                                                    edgeSmoothing*((i-trackWidth/2)/(trackWidth/2f)));
+            }
+            
+        }
+
+    }
+
+    private void GenerateWestToEast()
+    {
+        // Generate the track from west to east
+
+        for (int x = 0; x <= width; x++)
+        {
+            float _x = x + (int)transform.position.x; 
+
+            float directionOffset = Mathf.PerlinNoise1D(_x * noiseScale);
+            directionOffset = (directionOffset*2 - 1) * noiseHeightMultiplier; // Make the value between -1 and 1
+
+            int z = length/2 + (int) (directionOffset);
+
+            int vertIndex = z * (width + 1) + x;
+
+            // Make the track
+            vertices[vertIndex].y -= maxTerrainHeight;
+            for(int i=1; i<=trackWidth/2; i++){
+                vertices[OffsetZ(vertIndex, i)].y -= maxTerrainHeight;
+                vertices[OffsetZ(vertIndex, i)].y -= maxTerrainHeight; 
+            }
+
+            // Smooth the edges of the track
+            for(int i=trackWidth/2; i<=trackWidth; i++){
+                vertices[vertIndex+i].y = Mathf.Lerp(vertices[OffsetZ(vertIndex, trackWidth/2)].y, vertices[OffsetZ(vertIndex,+trackWidth)].y, 
+                                                    edgeSmoothing*((i-trackWidth/2)/(trackWidth/2f)));
+                                                    
+                vertices[vertIndex-i].y = Mathf.Lerp(vertices[OffsetZ(vertIndex,-trackWidth/2)].y, vertices[OffsetZ(vertIndex,-trackWidth)].y, 
                                                     edgeSmoothing*((i-trackWidth/2)/(trackWidth/2f)));
             }
             
