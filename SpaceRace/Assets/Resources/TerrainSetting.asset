@@ -14,9 +14,9 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   width: 100
   length: 100
-  scaleA: 2.5
-  scaleB: 1
-  scaleC: 3.5
+  scaleA: 0.05
+  scaleB: 0.02
+  scaleC: 0.07
   heightMultiplier: 500
   spacingIndex: 50
   gradient:

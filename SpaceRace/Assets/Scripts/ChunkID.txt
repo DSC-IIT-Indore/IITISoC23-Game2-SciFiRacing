@@ -1,0 +1,19 @@
+
+South to North -> 13
+South to East -> 14
+South to West -> 12
+
+East to North -> 43
+East to South -> 41
+East to East -> 42
+
+West to North -> 23
+West to South -> 21
+West to East -> 24
+
+North to South -> 31
+North to East -> 34
+North to West -> 32
+
+
+
