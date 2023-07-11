@@ -7,6 +7,16 @@ using System.Collections;
 public class ProceduralTerrain : MonoBehaviour
 {
     public TerrainSetting terrainSetting;
+    public enum TrackID{
+        SouthToNorth = 13,
+        SouthToEast = 14,
+        SouthToWest = 12,
+        EastToNorth = 43,
+        EastToWest = 42,
+        WestToNorth = 23,
+        WestToEast = 24,
+
+    };
 
     // The following variables are used to generate the terrain
     [Header("Terrain Settings")] // Header for the inspector
@@ -26,7 +36,9 @@ public class ProceduralTerrain : MonoBehaviour
     public float noiseHeightMultiplier = 10f; // Height multiplier of the noise
     public int trackWidth = 4; // Width of the track in vertices
     public float edgeSmoothing = 2f; // Smoothing of the edges of the track
-    public int trackID = 13;
+    public TrackID _trackID;
+    [HideInInspector]
+    public int trackID = (int)TrackID.SouthToNorth; // ID of the track
 
     private Mesh mesh; // Mesh of the terrain
     private Vector3[] vertices; // Vertices of the terrain
@@ -44,9 +56,9 @@ public class ProceduralTerrain : MonoBehaviour
         transform.position = Vector3.zero;
     }
 
-    public void Generate(int _trackID = 13)
+    public void Generate(int _trackID_ = 13)
     {   
-        trackID = _trackID;
+        trackID = _trackID_;
         terrainSetting = (TerrainSetting)Resources.Load("TerrainSetting", typeof(TerrainSetting));
         //Set the terrain settings from the TerrainSetting scriptable object
         width = terrainSetting.width;
@@ -70,8 +82,9 @@ public class ProceduralTerrain : MonoBehaviour
     {
         // If the user wants to update the terrain in real time, then update the terrain at each frame
         if(UpdateInRealTime){
+            trackID = (int)_trackID;
             CreateTerrain();
-            GenerateTrack(13);
+            GenerateTrack(trackID);
             UpdateMesh();
         }
         

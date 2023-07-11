@@ -22,12 +22,19 @@ public class MapGenerator : MonoBehaviour
     public GameObject mapChunkPrefab;
 
     private Vector3 spawnPosition = Vector3.zero;
-    public GameObject currentActiveChunk;
+    private int lastChunkID = 13;
     public int maxActiveChunks = 3;
 
     void Start()
     {
         terrainSetting = (TerrainSetting)Resources.Load("TerrainSetting", typeof(TerrainSetting));
+        
+        GameObject mapChunk = Instantiate(mapChunkPrefab, spawnPosition, Quaternion.identity);
+        mapChunk.GetComponent<ProceduralTerrain>().Generate();
+        mapChunk.transform.position = Vector3.zero;
+        lastChunkID = mapChunk.GetComponent<ProceduralTerrain>().trackID;
+        mapChunks.Add(mapChunk);
+        spawnPosition += new Vector3(0, 0, terrainSetting.length-1); // IDK why I have to subtract 1, but it works
     }
 
     void Update()
@@ -35,15 +42,24 @@ public class MapGenerator : MonoBehaviour
         if(mapChunks.Count < maxActiveChunks)
         {
             GenerateMapChunk();
-            Debug.Log(mapChunkDictionary[13][0]);
+        }
+
+        if(Input.GetKeyDown(KeyCode.Space))
+        {
+            GenerateMapChunk();
         }
     }
 
     private void GenerateMapChunk()
     {
+        int[] nextChunks = mapChunkDictionary[lastChunkID];
+        int nextChunkID = nextChunks[Random.Range(0, nextChunks.Length)];
+
         GameObject mapChunk = Instantiate(mapChunkPrefab, spawnPosition, Quaternion.identity);
-        mapChunk.GetComponent<ProceduralTerrain>().Generate();
+        mapChunk.GetComponent<ProceduralTerrain>().Generate(nextChunkID);
+        Debug.Log("Chunk Generated with ID: " + nextChunkID);
         mapChunk.transform.position = Vector3.zero;
+        lastChunkID = mapChunk.GetComponent<ProceduralTerrain>().trackID;
         mapChunks.Add(mapChunk);
         spawnPosition += new Vector3(0, 0, terrainSetting.length-1); // IDK why I have to subtract 1, but it works
     }
