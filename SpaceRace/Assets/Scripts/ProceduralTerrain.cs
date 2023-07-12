@@ -189,6 +189,12 @@ public class ProceduralTerrain : MonoBehaviour
 
     }
 
+    // Utility functions
+    private int CoordToVert(Vector2 coord)
+    {
+        return (int)coord.y * (width + 1) + (int)coord.x;
+    }
+
     private int OffsetX(int _vertIndex, int _offset)
     {
         return _vertIndex + _offset;
@@ -206,6 +212,8 @@ public class ProceduralTerrain : MonoBehaviour
         return Vector2.Lerp(p0, p1, t);
     }
 
+
+    // Track generation functions
     private void GenerateSouthToNorth()
     {
         // Generate the track from south to north
@@ -310,6 +318,7 @@ public class ProceduralTerrain : MonoBehaviour
 
     }
 
+    
     private void GenerateSouthToEast()
     {
         // Generate the track from south to east
@@ -340,14 +349,19 @@ public class ProceduralTerrain : MonoBehaviour
         while(t <= 1){
             // Find the point on the curve
             Vector2 point = QuadraticCurve(entry, midPoint, exit, t);
-            Vector2 dir = point - prevPoint;
+            Vector2 dir = (point - prevPoint);
+            float delta = dir.magnitude;
 
-            int vertIndex = (int)point.y * (width + 1) + (int)point.x;
-            vertices[vertIndex].y -= maxTerrainHeight;            
+            int vertIndex = CoordToVert(point);
+            vertices[vertIndex].y -= vertices[vertIndex].y > 0 ? maxTerrainHeight : 0;            
 
+            for(int i=1; i<=trackWidth/2; i++){
+                vertices[ CoordToVert(point + Vector2.Perpendicular(dir) * i/delta) ].y -= maxTerrainHeight;
+                vertices[ CoordToVert(point - Vector2.Perpendicular(dir) * i/delta) ].y -= maxTerrainHeight;  
+            }
 
             prevPoint = point;
-            t += 0.01f;
+            t += 0.005f;
         }
         
 
