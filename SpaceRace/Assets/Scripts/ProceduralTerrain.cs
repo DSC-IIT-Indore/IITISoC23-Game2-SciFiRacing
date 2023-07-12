@@ -39,7 +39,7 @@ public class ProceduralTerrain : MonoBehaviour
     public TrackID _trackID;
     private int trackID = (int)TrackID.SouthToNorth; // ID of the track
     [Range(0.001f, 0.05f)]
-    public float curveResolution = 0.01f;
+    public float curveResolution = 0.005f;
 
     private Mesh mesh; // Mesh of the terrain
     private Vector3[] vertices; // Vertices of the terrain
@@ -323,7 +323,7 @@ public class ProceduralTerrain : MonoBehaviour
     
 
 
-    private void LowerPointsInTrackArea(Vector2 point, int vertIndex)
+    private void LowerPointsInTrackArea(Vector2 point)
     {
         int minX = Mathf.FloorToInt(point.x - trackWidth / 2);
         int maxX = Mathf.CeilToInt(point.x + trackWidth / 2);
@@ -335,10 +335,8 @@ public class ProceduralTerrain : MonoBehaviour
             for (int x = minX; x <= maxX; x++)
             {
                 int currentVertIndex = CoordToVert(new Vector2(x, z));
-                if (currentVertIndex != vertIndex)
-                {
-                    vertices[currentVertIndex].y -= maxTerrainHeight;
-                }
+                currentVertIndex = Mathf.Clamp(currentVertIndex, 0, vertices.Length - 1);
+                vertices[currentVertIndex].y -= vertices[currentVertIndex].y > 0 ? maxTerrainHeight : 0;
             }
         }
     }
@@ -381,17 +379,18 @@ public class ProceduralTerrain : MonoBehaviour
             int vertIndex = CoordToVert(point);
             vertices[vertIndex].y -= vertices[vertIndex].y > 0 ? maxTerrainHeight : 0;            
 
-            for(int i=1; i<=trackWidth/2; i++){
-                float offset = i / delta;
+            LowerPointsInTrackArea(point);
+            // for(int i=1; i<=trackWidth/2; i++){
+            //     float offset = i / delta;
 
-                Vector2 offsetVector = Vector2.Perpendicular(dir) * offset;
+            //     Vector2 offsetVector = Vector2.Perpendicular(dir) * offset;
 
-                Vector2 widenedPoint = point + offsetVector;
-                int widenedVertIndex = CoordToVert(widenedPoint);
+            //     Vector2 widenedPoint = point + offsetVector;
+            //     int widenedVertIndex = CoordToVert(widenedPoint);
 
-                // Lower all points within the track area
-                LowerPointsInTrackArea(widenedPoint, widenedVertIndex);
-            }
+            //     // Lower all points within the track area
+            //     LowerPointsInTrackArea(widenedPoint, widenedVertIndex);
+            // }
 
             prevPoint = point;
             t += curveResolution;
