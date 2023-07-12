@@ -12,14 +12,11 @@ public class TerrainSetting : ScriptableObject
     public Gradient gradient; // Gradient of the terrain
 
     [Header("Track Generator Settings")] // Header for the inspector
-    [Range(0, 0.5f)]
     public float noiseScale; // Scale of the noise
     public float noiseHeightMultiplier; // Height multiplier of the noise
     public int trackWidth; // Width of the track in vertices
     public float edgeSmoothing; // Smoothing of the edges of the track
-    [Range(0.001f, 0.05f)]
     public float curveResolution;
-    [Range(0, 1f)]
     public float curvePadding;
     
 }

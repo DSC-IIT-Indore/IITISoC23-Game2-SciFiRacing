@@ -53,6 +53,12 @@ public class MapGenerator : MonoBehaviour
             GenerateMapChunk();
         }
 
+        if(mapChunks.Count > maxActiveChunks)
+        {
+            Destroy(mapChunks[0]);
+            mapChunks.RemoveAt(0);
+        }
+
         if(Input.GetKeyDown(KeyCode.R))
         {
             virtualCamera.enabled = false;
@@ -76,6 +82,7 @@ public class MapGenerator : MonoBehaviour
         mapChunk.transform.position = Vector3.zero;
         lastChunkID = nextChunkID;
         mapChunks.Add(mapChunk);
-        spawnPosition += new Vector3(0, 0, terrainSetting.length-1); // IDK why I have to subtract 1, but it works
+        spawnPosition += mapChunk.GetComponent<ProceduralTerrain>().deltaSpawnPosition;
+        Debug.Log("Spawn Position: " + spawnPosition); 
     }
 }

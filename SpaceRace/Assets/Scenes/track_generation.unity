@@ -242,7 +242,8 @@ Transform:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 330585543}
-  m_LocalRotation: {x: 0.18910751, y: 0.000000008447955, z: -0.0000000016269276, w: 0.9819564}
+  m_LocalRotation: {x: 0.18910751, y: -0.0000000084479606, z: 0.0000000016269286,
+    w: 0.9819564}
   m_LocalPosition: {x: 0, y: 1004, z: -10}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
@@ -562,6 +563,7 @@ MonoBehaviour:
   _trackID: 0
   curveResolution: 0.005
   curvePadding: 1
+  deltaSpawnPosition: {x: 0, y: 0, z: 0}
 --- !u!33 &539294961
 MeshFilter:
   m_ObjectHideFlags: 0
@@ -770,7 +772,8 @@ Transform:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 808862390}
-  m_LocalRotation: {x: 0.18910751, y: 0.000000008447955, z: -0.0000000016269276, w: 0.9819564}
+  m_LocalRotation: {x: 0.18910751, y: -0.0000000084479606, z: 0.0000000016269286,
+    w: 0.9819564}
   m_LocalPosition: {x: 0, y: 1004, z: -10}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
@@ -844,7 +847,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 0
+  m_IsActive: 1
 --- !u!114 &1423257498
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -994,6 +997,7 @@ MonoBehaviour:
   _trackID: 0
   curveResolution: 0.005
   curvePadding: 1
+  deltaSpawnPosition: {x: 0, y: 0, z: 0}
 --- !u!33 &1959037674
 MeshFilter:
   m_ObjectHideFlags: 0
@@ -2283,6 +2287,7 @@ MonoBehaviour:
   _trackID: 14
   curveResolution: 0.0106
   curvePadding: 0.2
+  deltaSpawnPosition: {x: 0, y: 0, z: 0}
 --- !u!23 &5382962172169478525
 MeshRenderer:
   m_ObjectHideFlags: 0
@@ -2617,7 +2622,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!1 &6040487653755852545
 GameObject:
   m_ObjectHideFlags: 0

@@ -31,17 +31,17 @@ public class ProceduralTerrain : MonoBehaviour
     public bool UpdateInRealTime = false; // Update the terrain in real time
     
     [Header("Track Generator Settings")] // Header for the inspector
-    [Range(0, 0.5f)]
     public float noiseScale = 10f; // Scale of the noise
     public float noiseHeightMultiplier = 10f; // Height multiplier of the noise
     public int trackWidth = 4; // Width of the track in vertices
     public float edgeSmoothing = 2f; // Smoothing of the edges of the track
     public TrackID _trackID;
     private int trackID = (int)TrackID.SouthToNorth; // ID of the track
-    [Range(0.001f, 0.05f)]
     public float curveResolution = 0.005f;
-    [Range(0, 1f)]
     public float curvePadding = 0f;
+
+    [HideInInspector]
+    public Vector3 deltaSpawnPosition = Vector3.zero; // Change in spawn position due to this terrain
 
     private Mesh mesh; // Mesh of the terrain
     private Vector3[] vertices; // Vertices of the terrain
@@ -59,6 +59,7 @@ public class ProceduralTerrain : MonoBehaviour
     {   
         trackID = _trackID_;
         terrainSetting = (TerrainSetting)Resources.Load("TerrainSetting", typeof(TerrainSetting));
+
         //Set the terrain settings from the TerrainSetting scriptable object
         width = terrainSetting.width;
         length = terrainSetting.length;
@@ -69,6 +70,14 @@ public class ProceduralTerrain : MonoBehaviour
         spacingIndex = terrainSetting.spacingIndex;
         gradient = terrainSetting.gradient;
 
+        noiseScale = terrainSetting.noiseScale;
+        noiseHeightMultiplier = terrainSetting.noiseHeightMultiplier;
+        trackWidth = terrainSetting.trackWidth;
+        edgeSmoothing = terrainSetting.edgeSmoothing;
+        curveResolution = terrainSetting.curveResolution;
+        curvePadding = terrainSetting.curvePadding;
+
+        // Create the mesh and update it
         mesh = new Mesh();
         GetComponent<MeshFilter>().mesh = mesh;
         CreateTerrain();
@@ -170,34 +179,42 @@ public class ProceduralTerrain : MonoBehaviour
         {
             case (int)TrackID.SouthToNorth:
                 GenerateSouthToNorth();
+                deltaSpawnPosition = new Vector3(0, 0, length-1); // IDK why I have to subtract 1 but it works
                 break;
             
             case (int)TrackID.WestToEast:
                 GenerateWestToEast();
+                deltaSpawnPosition = new Vector3(width-1, 0, 0);
                 break;
 
             case (int)TrackID.EastToWest:
                 GenerateEastToWest();
+                deltaSpawnPosition = new Vector3(-width+1, 0, 0);
                 break;
 
             case (int)TrackID.SouthToEast:
                 GenerateSouthToEast();
+                deltaSpawnPosition = new Vector3(width-1, 0, 0);
                 break;
 
             case (int)TrackID.SouthToWest:
                 GenerateSouthToWest();
+                deltaSpawnPosition = new Vector3(-width+1, 0, 0);
                 break;
 
             case (int)TrackID.EastToNorth:
                 GenerateEastToNorth();
+                deltaSpawnPosition = new Vector3(0, 0, length-1);
                 break;
 
             case (int)TrackID.WestToNorth:
                 GenerateWestToNorth();
+                deltaSpawnPosition = new Vector3(0, 0, length-1);
                 break;
 
             default:
                 GenerateSouthToNorth();
+                deltaSpawnPosition = new Vector3(0, 0, length-1);
                 break;
         }
 
@@ -777,5 +794,5 @@ public class ProceduralTerrain : MonoBehaviour
 
     }
 
-// END OF GENERATION FUNCTIONS
+    // End of track generation functions
 }

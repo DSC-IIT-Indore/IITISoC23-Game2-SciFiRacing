@@ -49,3 +49,9 @@ MonoBehaviour:
     m_ColorSpace: -1
     m_NumColorKeys: 4
     m_NumAlphaKeys: 2
+  noiseScale: 0.01
+  noiseHeightMultiplier: 50
+  trackWidth: 15
+  edgeSmoothing: 1
+  curveResolution: 0.01
+  curvePadding: 0.2
