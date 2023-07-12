@@ -38,6 +38,8 @@ public class ProceduralTerrain : MonoBehaviour
     public float edgeSmoothing = 2f; // Smoothing of the edges of the track
     public TrackID _trackID;
     private int trackID = (int)TrackID.SouthToNorth; // ID of the track
+    [Range(0.001f, 0.05f)]
+    public float curveResolution = 0.01f;
 
     private Mesh mesh; // Mesh of the terrain
     private Vector3[] vertices; // Vertices of the terrain
@@ -319,6 +321,30 @@ public class ProceduralTerrain : MonoBehaviour
     }
 
     
+
+
+    private void LowerPointsInTrackArea(Vector2 point, int vertIndex)
+    {
+        int minX = Mathf.FloorToInt(point.x - trackWidth / 2);
+        int maxX = Mathf.CeilToInt(point.x + trackWidth / 2);
+        int minZ = Mathf.FloorToInt(point.y - trackWidth / 2);
+        int maxZ = Mathf.CeilToInt(point.y + trackWidth / 2);
+
+        for (int z = minZ; z <= maxZ; z++)
+        {
+            for (int x = minX; x <= maxX; x++)
+            {
+                int currentVertIndex = CoordToVert(new Vector2(x, z));
+                if (currentVertIndex != vertIndex)
+                {
+                    vertices[currentVertIndex].y -= maxTerrainHeight;
+                }
+            }
+        }
+    }
+
+
+    
     private void GenerateSouthToEast()
     {
         // Generate the track from south to east
@@ -346,7 +372,7 @@ public class ProceduralTerrain : MonoBehaviour
 
         float t = 0;
         Vector2 prevPoint = entry;
-        while(t <= 1){
+        while(t <= 1+curveResolution){
             // Find the point on the curve
             Vector2 point = QuadraticCurve(entry, midPoint, exit, t);
             Vector2 dir = (point - prevPoint);
@@ -356,15 +382,21 @@ public class ProceduralTerrain : MonoBehaviour
             vertices[vertIndex].y -= vertices[vertIndex].y > 0 ? maxTerrainHeight : 0;            
 
             for(int i=1; i<=trackWidth/2; i++){
-                vertices[ CoordToVert(point + Vector2.Perpendicular(dir) * i/delta) ].y -= maxTerrainHeight;
-                vertices[ CoordToVert(point - Vector2.Perpendicular(dir) * i/delta) ].y -= maxTerrainHeight;  
+                float offset = i / delta;
+
+                Vector2 offsetVector = Vector2.Perpendicular(dir) * offset;
+
+                Vector2 widenedPoint = point + offsetVector;
+                int widenedVertIndex = CoordToVert(widenedPoint);
+
+                // Lower all points within the track area
+                LowerPointsInTrackArea(widenedPoint, widenedVertIndex);
             }
 
             prevPoint = point;
-            t += 0.005f;
+            t += curveResolution;
         }
         
-
     }
 
 }
