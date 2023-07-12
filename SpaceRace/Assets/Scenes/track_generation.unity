@@ -2711,7 +2711,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   acceleration: 5000
-  maxSpeed: 1000
+  maxSpeed: 200
   maxRollAngle: 0.5
   maxPitchAngle: 2
   tiltConstant: 10
