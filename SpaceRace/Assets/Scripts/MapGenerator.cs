@@ -23,6 +23,7 @@ public class MapGenerator : MonoBehaviour
     private List<GameObject> mapChunks = new List<GameObject>();
     public TerrainSetting terrainSetting;
     public GameObject mapChunkPrefab;
+    public float maxSpawnDistance = 500f;
 
     private Vector3 spawnPosition = Vector3.zero;
     private int lastChunkID = 13;
@@ -59,7 +60,7 @@ public class MapGenerator : MonoBehaviour
             mapChunks.RemoveAt(0);
         }
 
-        if(Input.GetKeyDown(KeyCode.R))
+        if(spawnPosition.sqrMagnitude > maxSpawnDistance * maxSpawnDistance)
         {
             virtualCamera.enabled = false;
             foreach(GameObject obj in SceneManager.GetActiveScene().GetRootGameObjects())

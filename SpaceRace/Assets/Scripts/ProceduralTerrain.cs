@@ -102,6 +102,8 @@ public class ProceduralTerrain : MonoBehaviour
     {
         vertices = new Vector3[(width + 1) * (length + 1)];
         triangles = new int[width * length * 6];
+        maxTerrainHeight = 0;
+        minTerrainHeight = 0;
 
         int vertIndex = 0;
         for (int z = 0; z <= length; z++)
