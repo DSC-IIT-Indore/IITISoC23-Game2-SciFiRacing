@@ -60,8 +60,6 @@ public class MapGenerator : MonoBehaviour
             {
                 obj.transform.position -= spawnPosition * terrainSetting.spacingIndex;
             }            
-            // Destroy(mapChunks[0]);
-            // mapChunks.RemoveAt(0);
             spawnPosition = Vector3.zero;
         }
         

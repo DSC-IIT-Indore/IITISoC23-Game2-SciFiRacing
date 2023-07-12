@@ -199,6 +199,13 @@ public class ProceduralTerrain : MonoBehaviour
         return _vertIndex + _offset * (width + 1);
     }
 
+    private Vector2 QuadraticCurve(Vector2 a, Vector2 b, Vector2 c, float t)
+    {
+        Vector2 p0 = Vector2.Lerp(a, b, t);
+        Vector2 p1 = Vector2.Lerp(b, c, t);
+        return Vector2.Lerp(p0, p1, t);
+    }
+
     private void GenerateSouthToNorth()
     {
         // Generate the track from south to north
@@ -306,65 +313,43 @@ public class ProceduralTerrain : MonoBehaviour
     private void GenerateSouthToEast()
     {
         // Generate the track from south to east
-        int x = 0;
-        for (int z = 0; z <= length/2 + trackWidth/2+1; z++)
-        {
-            float _z = z + (int)transform.position.z; 
 
-            float directionOffset = Mathf.PerlinNoise1D(_z * noiseScale);
-            directionOffset = (directionOffset*2 - 1) * noiseHeightMultiplier; // Make the value between -1 and 1
-            x = width/2 + (int) (directionOffset);
+        // Find the entry point
+        int x=0, z=0;
+        float _z = z + (int)transform.position.z;
+        float directionOffset = Mathf.PerlinNoise1D(_z * noiseScale);
+        directionOffset = (directionOffset*2 - 1) * noiseHeightMultiplier; // Make the value between -1 and 1
+        x = width/2 + (int) (directionOffset);
 
-            int vertIndex = z * (width + 1) + x;
+        Vector2 entry = new Vector2(x, z);
 
-            // Make the track
-            vertices[vertIndex].y -= maxTerrainHeight;
-            for(int i=1; i<=trackWidth/2; i++){
-                vertices[OffsetX(vertIndex, +i)].y -= maxTerrainHeight;
-                vertices[OffsetX(vertIndex, -i)].y -= maxTerrainHeight; 
-            }
+        // Find the exit point
+        x=width;
+        float _x = x + (int)transform.position.x; 
+        directionOffset = Mathf.PerlinNoise1D(_x * noiseScale);
+        directionOffset = (directionOffset*2 - 1) * noiseHeightMultiplier; // Make the value between -1 and 1
+        z = length/2 + (int) (directionOffset);
 
-            // Smooth the edges of the track
-            for(int i=trackWidth/2; i<=trackWidth; i++){
-                vertices[OffsetX(vertIndex, +i)].y = Mathf.Lerp(vertices[OffsetX(vertIndex,+trackWidth/2)].y, vertices[OffsetX(vertIndex,+trackWidth)].y, 
-                                                    edgeSmoothing*((i-trackWidth/2)/(trackWidth/2f)));
-                                                    
-                vertices[OffsetX(vertIndex, -i)].y = Mathf.Lerp(vertices[OffsetX(vertIndex,-trackWidth/2)].y, vertices[OffsetX(vertIndex,-trackWidth)].y, 
-                                                    edgeSmoothing*((i-trackWidth/2)/(trackWidth/2f)));
-            }
-            
+        Vector2 exit = new Vector2(x, z);
+
+        // Find the mid point
+        Vector2 midPoint = new Vector2(0, length);
+
+        float t = 0;
+        Vector2 prevPoint = entry;
+        while(t <= 1){
+            // Find the point on the curve
+            Vector2 point = QuadraticCurve(entry, midPoint, exit, t);
+            Vector2 dir = point - prevPoint;
+
+            int vertIndex = (int)point.y * (width + 1) + (int)point.x;
+            vertices[vertIndex].y -= maxTerrainHeight;            
+
+
+            prevPoint = point;
+            t += 0.01f;
         }
-        x -= trackWidth/2+1;
-
-        while (x <= width)
-        {
-            float _x = x + (int)transform.position.x; 
-
-            float directionOffset = Mathf.PerlinNoise1D(_x * noiseScale);
-            directionOffset = (directionOffset*2 - 1) * noiseHeightMultiplier; // Make the value between -1 and 1
-
-            int z = length/2 + (int) (directionOffset);
-
-            int vertIndex = z * (width + 1) + x;
-
-            // Make the track
-            vertices[vertIndex].y -= maxTerrainHeight;
-            for(int i=1; i<=trackWidth/2; i++){
-                vertices[OffsetZ(vertIndex, i)].y -= maxTerrainHeight;
-                vertices[OffsetZ(vertIndex, -i)].y -= maxTerrainHeight; 
-            }
-
-            // Smooth the edges of the track
-            for(int i=trackWidth/2; i<=trackWidth; i++){
-                vertices[OffsetZ(vertIndex, i)].y = Mathf.Lerp(vertices[OffsetZ(vertIndex, trackWidth/2)].y, vertices[OffsetZ(vertIndex, trackWidth)].y, 
-                                                    edgeSmoothing*((i-trackWidth/2)/(trackWidth/2f)));
-                                                    
-                vertices[OffsetZ(vertIndex, -i)].y = Mathf.Lerp(vertices[OffsetZ(vertIndex, -trackWidth/2)].y, vertices[OffsetZ(vertIndex, -trackWidth)].y, 
-                                                    edgeSmoothing*((i-trackWidth/2)/(trackWidth/2f)));
-            }
-            x++;
         
-        }
 
     }
 
