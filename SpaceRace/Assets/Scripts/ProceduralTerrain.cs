@@ -194,7 +194,9 @@ public class ProceduralTerrain : MonoBehaviour
     // Utility functions
     private int CoordToVert(Vector2 coord)
     {
-        return (int)coord.y * (width + 1) + (int)coord.x;
+        int v = (int)coord.y * (width + 1) + (int)coord.x;
+        v = Mathf.Clamp(v, 0, vertices.Length - 1);
+        return v;
     }
 
     private int OffsetX(int _vertIndex, int _offset)
@@ -320,7 +322,6 @@ public class ProceduralTerrain : MonoBehaviour
 
     }
 
-    
 
 
     private void LowerPointsInTrackArea(Vector2 point)
@@ -335,13 +336,31 @@ public class ProceduralTerrain : MonoBehaviour
             for (int x = minX; x <= maxX; x++)
             {
                 int currentVertIndex = CoordToVert(new Vector2(x, z));
-                currentVertIndex = Mathf.Clamp(currentVertIndex, 0, vertices.Length - 1);
                 vertices[currentVertIndex].y -= vertices[currentVertIndex].y > 0 ? maxTerrainHeight : 0;
             }
         }
     }
 
+    private void SmoothPointsAtEdge(Vector2 point)
+    {
+        int minX = Mathf.FloorToInt(point.x + trackWidth / 2);
+        int maxX = Mathf.CeilToInt(point.x + trackWidth);
+        int minZ = Mathf.FloorToInt(point.y + trackWidth / 2);
+        int maxZ = Mathf.CeilToInt(point.y + trackWidth);
 
+        for (int z = minZ; z <= maxZ; z++)
+        {
+            for (int x = minX; x <= maxX; x++)
+            {
+                int currentVertIndex = CoordToVert(new Vector2(x, z));
+                currentVertIndex = Mathf.Clamp(currentVertIndex, 0, vertices.Length - 1);
+                if(vertices[currentVertIndex].y > 0){
+                    vertices[currentVertIndex].y = Mathf.Lerp(vertices[CoordToVert(new Vector2(minX, minZ))].y, vertices[CoordToVert(new Vector2(maxX, maxZ))].y, 
+                                                        edgeSmoothing*((x-minX)/(maxX-minX))*((z-minZ)/(maxZ-minZ)));
+                }
+            }
+        }
+    }
     
     private void GenerateSouthToEast()
     {
@@ -380,17 +399,7 @@ public class ProceduralTerrain : MonoBehaviour
             vertices[vertIndex].y -= vertices[vertIndex].y > 0 ? maxTerrainHeight : 0;            
 
             LowerPointsInTrackArea(point);
-            // for(int i=1; i<=trackWidth/2; i++){
-            //     float offset = i / delta;
-
-            //     Vector2 offsetVector = Vector2.Perpendicular(dir) * offset;
-
-            //     Vector2 widenedPoint = point + offsetVector;
-            //     int widenedVertIndex = CoordToVert(widenedPoint);
-
-            //     // Lower all points within the track area
-            //     LowerPointsInTrackArea(widenedPoint, widenedVertIndex);
-            // }
+            SmoothPointsAtEdge(point);
 
             prevPoint = point;
             t += curveResolution;
