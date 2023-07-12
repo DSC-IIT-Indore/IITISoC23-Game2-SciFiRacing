@@ -164,10 +164,8 @@ public class ProceduralTerrain : MonoBehaviour
 
     private void GenerateTrack(int ID)
     {
-        // Pick the midpoint of a random edge of the terrain, and make it the starting point of the track (the first node). 
-        // Now pick a random edge of the terrain, and make it the ending point of the track (the last node).
-        // Now generate a random path between the first and last nodes. That's the track.
-        
+
+        // Generate the track based on the ID
         switch(ID)
         {
             case (int)TrackID.SouthToNorth:
@@ -192,6 +190,10 @@ public class ProceduralTerrain : MonoBehaviour
 
             case (int)TrackID.EastToNorth:
                 GenerateEastToNorth();
+                break;
+
+            case (int)TrackID.WestToNorth:
+                GenerateWestToNorth();
                 break;
 
             default:
@@ -629,7 +631,7 @@ public class ProceduralTerrain : MonoBehaviour
         // Then generate the curve
         {
             // Find the entry point
-            int x = 0, z = length;
+            int x = 0, z = length - (int)(length*curvePadding);
             float _z = z + (int)transform.position.z;
             float directionOffset = Mathf.PerlinNoise1D(_z * noiseScale);
             directionOffset = (directionOffset*2 - 1) * noiseHeightMultiplier; // Make the value between -1 and 1
@@ -669,6 +671,111 @@ public class ProceduralTerrain : MonoBehaviour
 
     }
 
+    private void GenerateWestToNorth()
+    {
+        // Generate the track from west to north
+
+        // First generate normal track
+        {
+            for (int z = length - (int)(length*curvePadding); z <= length; z++)
+            {
+                float _z = z + (int)transform.position.z; 
+
+                float directionOffset = Mathf.PerlinNoise1D(_z * noiseScale);
+                directionOffset = (directionOffset*2 - 1) * noiseHeightMultiplier; // Make the value between -1 and 1
+                int x = width/2 + (int) (directionOffset);
+
+                int vertIndex = z * (width + 1) + x;
+
+                // Make the track
+                vertices[vertIndex].y -= maxTerrainHeight;
+                for(int i=1; i<=trackWidth/2; i++){
+                    vertices[OffsetX(vertIndex, +i)].y -= maxTerrainHeight;
+                    vertices[OffsetX(vertIndex, -i)].y -= maxTerrainHeight; 
+                }
+
+                // Smooth the edges of the track
+                for(int i=trackWidth/2; i<=trackWidth; i++){
+                    vertices[OffsetX(vertIndex, +i)].y = Mathf.Lerp(vertices[OffsetX(vertIndex,+trackWidth/2)].y, vertices[OffsetX(vertIndex,+trackWidth)].y, 
+                                                        edgeSmoothing*((i-trackWidth/2)/(trackWidth/2f)));
+                                                        
+                    vertices[OffsetX(vertIndex, -i)].y = Mathf.Lerp(vertices[OffsetX(vertIndex,-trackWidth/2)].y, vertices[OffsetX(vertIndex,-trackWidth)].y, 
+                                                        edgeSmoothing*((i-trackWidth/2)/(trackWidth/2f)));
+                }
+            }
+
+            for (int x = 0; x <= (int)(width*curvePadding); x++)
+            {
+                float _x = x + (int)transform.position.x; 
+
+                float directionOffset = Mathf.PerlinNoise1D(_x * noiseScale);
+                directionOffset = (directionOffset*2 - 1) * noiseHeightMultiplier; // Make the value between -1 and 1
+
+                int z = length/2 + (int) (directionOffset);
+
+                int vertIndex = z * (width + 1) + x;
+
+                // Make the track
+                vertices[vertIndex].y -= maxTerrainHeight;
+                for(int i=1; i<=trackWidth/2; i++){
+                    vertices[OffsetZ(vertIndex, i)].y -= maxTerrainHeight;
+                    vertices[OffsetZ(vertIndex, -i)].y -= maxTerrainHeight; 
+                }
+
+                // Smooth the edges of the track
+                for(int i=trackWidth/2; i<=trackWidth; i++){
+                    vertices[OffsetZ(vertIndex, i)].y = Mathf.Lerp(vertices[OffsetZ(vertIndex, trackWidth/2)].y, vertices[OffsetZ(vertIndex, trackWidth)].y, 
+                                                        edgeSmoothing*((i-trackWidth/2)/(trackWidth/2f)));
+                                                        
+                    vertices[OffsetZ(vertIndex, -i)].y = Mathf.Lerp(vertices[OffsetZ(vertIndex, -trackWidth/2)].y, vertices[OffsetZ(vertIndex, -trackWidth)].y, 
+                                                        edgeSmoothing*((i-trackWidth/2)/(trackWidth/2f)));
+                }
+                
+            }
+        }
+
+        // Then generate the curve
+        {
+            // Find the entry point
+            int x = 0, z = length - (int)(length*curvePadding);
+            float _z = z + (int)transform.position.z;
+            float directionOffset = Mathf.PerlinNoise1D(_z * noiseScale);
+            directionOffset = (directionOffset*2 - 1) * noiseHeightMultiplier; // Make the value between -1 and 1
+            x = width/2 + (int) (directionOffset);
+
+            Vector2 entry = new Vector2(x, z);
+
+            // Find the exit point
+            x = (int)(width*curvePadding);
+            float _x = x + (int)transform.position.x; 
+            directionOffset = Mathf.PerlinNoise1D(_x * noiseScale);
+            directionOffset = (directionOffset*2 - 1) * noiseHeightMultiplier; // Make the value between -1 and 1
+            z = length/2 + (int) (directionOffset);
+
+            Vector2 exit = new Vector2(x, z);
+
+            // Find the mid point
+            Vector2 midPoint = new Vector2(width, 0);
+
+            float t = 0;
+            Vector2 prevPoint = entry;
+            while(t <= 1){
+                // Find the point on the curve
+                Vector2 point = QuadraticCurve(entry, midPoint, exit, t);
+                Vector2 dir = (point - prevPoint);
+                float delta = dir.magnitude;
+
+                int vertIndex = CoordToVert(point);
+                vertices[vertIndex].y -= vertices[vertIndex].y > 0 ? maxTerrainHeight : 0;            
+
+                LowerPointsInTrackArea(point);
+
+                prevPoint = point;
+                t += curveResolution;
+            }
+        }
+
+    }
 
 // END OF GENERATION FUNCTIONS
 }

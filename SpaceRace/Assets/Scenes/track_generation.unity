@@ -2281,7 +2281,7 @@ MonoBehaviour:
   trackWidth: 15
   edgeSmoothing: 1
   _trackID: 14
-  curveResolution: 0.005
+  curveResolution: 0.0106
   curvePadding: 0.2
 --- !u!23 &5382962172169478525
 MeshRenderer:
