@@ -560,6 +560,8 @@ MonoBehaviour:
   trackWidth: 15
   edgeSmoothing: 1
   _trackID: 0
+  curveResolution: 0.005
+  curvePadding: 1
 --- !u!33 &539294961
 MeshFilter:
   m_ObjectHideFlags: 0
@@ -990,6 +992,8 @@ MonoBehaviour:
   trackWidth: 15
   edgeSmoothing: 1
   _trackID: 0
+  curveResolution: 0.005
+  curvePadding: 1
 --- !u!33 &1959037674
 MeshFilter:
   m_ObjectHideFlags: 0
@@ -2277,6 +2281,8 @@ MonoBehaviour:
   trackWidth: 15
   edgeSmoothing: 1
   _trackID: 14
+  curveResolution: 0.005
+  curvePadding: 0.2
 --- !u!23 &5382962172169478525
 MeshRenderer:
   m_ObjectHideFlags: 0
