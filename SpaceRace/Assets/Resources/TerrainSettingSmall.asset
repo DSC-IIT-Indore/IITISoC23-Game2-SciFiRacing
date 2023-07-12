@@ -14,11 +14,11 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   width: 100
   length: 100
-  scaleA: 0.05
-  scaleB: 0.02
-  scaleC: 0.07
-  heightMultiplier: 500
-  spacingIndex: 50
+  scaleA: 0.06
+  scaleB: 0.01
+  scaleC: 0.09
+  heightMultiplier: 100
+  spacingIndex: 10
   gradient:
     serializedVersion: 2
     key0: {r: 0.16981131, g: 0.12559628, b: 0.12559628, a: 1}
@@ -30,8 +30,8 @@ MonoBehaviour:
     key6: {r: 0, g: 0, b: 0, a: 0}
     key7: {r: 0, g: 0, b: 0, a: 0}
     ctime0: 0
-    ctime1: 13107
-    ctime2: 32382
+    ctime1: 20046
+    ctime2: 23323
     ctime3: 65535
     ctime4: 0
     ctime5: 0

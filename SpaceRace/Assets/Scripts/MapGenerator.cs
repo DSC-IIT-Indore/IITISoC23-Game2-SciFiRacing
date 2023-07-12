@@ -31,7 +31,7 @@ public class MapGenerator : MonoBehaviour
 
     void Start()
     {
-        terrainSetting = (TerrainSetting)Resources.Load("TerrainSetting", typeof(TerrainSetting));
+        terrainSetting = (TerrainSetting)Resources.Load("TerrainSettingSmall", typeof(TerrainSetting));
 
         GameObject mapChunk = Instantiate(mapChunkPrefab, spawnPosition, Quaternion.identity);
         mapChunk.GetComponent<ProceduralTerrain>().Generate();
@@ -65,6 +65,9 @@ public class MapGenerator : MonoBehaviour
             virtualCamera.enabled = false;
             foreach(GameObject obj in SceneManager.GetActiveScene().GetRootGameObjects())
             {
+                if(obj.layer == LayerMask.NameToLayer("Static")){
+                    continue;
+                }
                 obj.transform.position -= spawnPosition * terrainSetting.spacingIndex;
             }            
             spawnPosition = Vector3.zero;

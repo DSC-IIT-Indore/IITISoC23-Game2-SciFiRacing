@@ -24,7 +24,6 @@ public class ProceduralTerrain : MonoBehaviour
     public int length = 100; // Number of vertices in the z axis
     public float scaleA, scaleB, scaleC; // Scale of the noise
     public float heightMultiplier = 10f; // Height multiplier of the terrain
-    public float heightExponent = 1f; // Height exponent of the terrain
     public float spacingIndex = 1; // Spacing between vertices 
     public Gradient gradient; // Gradient of the terrain
 
@@ -58,7 +57,7 @@ public class ProceduralTerrain : MonoBehaviour
     public void Generate(int _trackID_ = 13)
     {   
         trackID = _trackID_;
-        terrainSetting = (TerrainSetting)Resources.Load("TerrainSetting", typeof(TerrainSetting));
+        terrainSetting = (TerrainSetting)Resources.Load("TerrainSettingSmall", typeof(TerrainSetting));
 
         //Set the terrain settings from the TerrainSetting scriptable object
         width = terrainSetting.width;
