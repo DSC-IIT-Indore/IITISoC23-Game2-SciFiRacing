@@ -431,7 +431,7 @@ public class ProceduralTerrain : MonoBehaviour
 
             float t = 0;
             Vector2 prevPoint = entry;
-            while(t <= 1+curveResolution){
+            while(t <= 1){
                 // Find the point on the curve
                 Vector2 point = QuadraticCurve(entry, midPoint, exit, t);
                 Vector2 dir = (point - prevPoint);
@@ -445,7 +445,8 @@ public class ProceduralTerrain : MonoBehaviour
                 prevPoint = point;
                 t += curveResolution;
             }
-        }        
+        }
+
     }
 
 }
