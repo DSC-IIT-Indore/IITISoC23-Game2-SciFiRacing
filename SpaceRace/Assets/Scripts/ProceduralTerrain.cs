@@ -45,7 +45,8 @@ public class ProceduralTerrain : MonoBehaviour
     private Mesh mesh; // Mesh of the terrain
     public Vector3[] vertices; // Vertices of the terrain
     private int[] triangles; // Triangles of the terrain
-    private float minTerrainHeight, maxTerrainHeight; // Min and max height of the terrain
+    [HideInInspector]
+    public float minTerrainHeight, maxTerrainHeight; // Min and max height of the terrain
     
 
     void Awake()
@@ -233,6 +234,13 @@ public class ProceduralTerrain : MonoBehaviour
     public int CoordToVert(Vector2 coord)
     {
         int v = (int)coord.y * (width + 1) + (int)coord.x;
+        v = Mathf.Clamp(v, 0, vertices.Length - 1);
+        return v;
+    }
+
+    public int CoordToVert(int x, int z)
+    {
+        int v = z * (width + 1) + x;
         v = Mathf.Clamp(v, 0, vertices.Length - 1);
         return v;
     }

@@ -88,7 +88,8 @@ public class MapGenerator : MonoBehaviour
         //mapChunk.transform.position = Vector3.zero;
 
         GameObject chunkStitch = Instantiate(chunkStitchPrefab, spawnPosition, Quaternion.identity);
-        
+        chunkStitch.GetComponent<ChunkStitcher>().Generate(mapChunks[mapChunks.Count-1], mapChunk);
+        chunkStitch.transform.parent = mapChunk.transform;
 
         lastChunkID = nextChunkID;
         mapChunks.Add(mapChunk);
