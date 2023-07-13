@@ -9,7 +9,7 @@ public class ChunkStitcher : MonoBehaviour
     private Mesh mesh; // Mesh of the terrain
     private Vector3[] vertices; // Vertices of the terrain
     private int[] triangles; // Triangles of the terrain
-
+    int width=0, length=2;
 
     public void Generate(GameObject lastChunk, GameObject currentChunk)
     {   
@@ -24,7 +24,14 @@ public class ChunkStitcher : MonoBehaviour
         int lastChunkExit = lastChunkTerrain.trackID.ToString()[1] - '0'; 
         int currentChunkEntry = currentChunkTerrain.trackID.ToString()[0] - '0';
 
-        vertices = new Vector3[(terrainSetting.width+1) * 2];
+        Debug.Log("Last chunk exit: " + lastChunkExit);
+        Debug.Log("Current chunk entry: " + currentChunkEntry);
+
+        width = terrainSetting.width;
+        length = 2;
+        vertices = new Vector3[(width + 1) * (length + 1)];
+        triangles = new int[width * length * 6];
+
 
         // Set vertices
         int j=0, i=0;
@@ -60,8 +67,34 @@ public class ChunkStitcher : MonoBehaviour
             j++;
         }   
 
+        GenerateTriangles();
         UpdateMesh(lastChunkTerrain);
         GetComponent<MeshCollider>().sharedMesh = mesh;
+    }
+
+    private void GenerateTriangles()
+    {
+        int triIndex = 0;
+        int vertCount = width + 1;
+        for (int z = 0; z < length; z++)
+        {
+            for (int x = 0; x < width; x++)
+            {
+                int topLeft = z * vertCount + x;
+                int topRight = topLeft + 1;
+                int bottomLeft = (z + 1) * vertCount + x;
+                int bottomRight = bottomLeft + 1;
+
+                triangles[triIndex] = topLeft;
+                triangles[triIndex + 1] = bottomLeft;
+                triangles[triIndex + 2] = topRight;
+                triangles[triIndex + 3] = topRight;
+                triangles[triIndex + 4] = bottomLeft;
+                triangles[triIndex + 5] = bottomRight;
+
+                triIndex += 6;
+            }
+        }
     }
 
     private void UpdateMesh(ProceduralTerrain chunk)
