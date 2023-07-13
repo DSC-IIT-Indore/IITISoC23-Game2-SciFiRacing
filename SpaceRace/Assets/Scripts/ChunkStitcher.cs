@@ -7,7 +7,7 @@ public class ChunkStitcher : MonoBehaviour
 {
     TerrainSetting terrainSetting;
     private Mesh mesh; // Mesh of the terrain
-    private Vector3[] vertices; // Vertices of the terrain
+    public Vector3[] vertices; // Vertices of the terrain
     private int[] triangles; // Triangles of the terrain
     int width=0, length=2;
 
@@ -24,11 +24,11 @@ public class ChunkStitcher : MonoBehaviour
         int lastChunkExit = lastChunkTerrain.trackID.ToString()[1] - '0'; 
         int currentChunkEntry = currentChunkTerrain.trackID.ToString()[0] - '0';
 
-        Debug.Log("Last chunk exit: " + lastChunkExit);
-        Debug.Log("Current chunk entry: " + currentChunkEntry);
+        // Debug.Log("Last chunk exit: " + lastChunkExit);
+        // Debug.Log("Current chunk entry: " + currentChunkEntry);
 
         width = terrainSetting.width;
-        length = 2;
+        length = 1;
         vertices = new Vector3[(width + 1) * (length + 1)];
         triangles = new int[width * length * 6];
 

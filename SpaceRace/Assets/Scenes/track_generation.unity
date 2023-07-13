@@ -665,7 +665,7 @@ MonoBehaviour:
     type: 3}
   chunkStitchPrefab: {fileID: 5269095679392691265, guid: 2cf9573fb921c954a8f9b5c7e6932621,
     type: 3}
-  maxSpawnDistance: 300
+  maxSpawnDistance: 500
   maxActiveChunks: 3
 --- !u!4 &1423257499
 Transform:

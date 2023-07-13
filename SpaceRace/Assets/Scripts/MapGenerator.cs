@@ -85,11 +85,12 @@ public class MapGenerator : MonoBehaviour
         GameObject mapChunk = Instantiate(mapChunkPrefab, spawnPosition, Quaternion.identity);
         mapChunk.GetComponent<ProceduralTerrain>().Generate(nextChunkID);
         Debug.Log("Chunk Generated with ID: " + nextChunkID);
-        //mapChunk.transform.position = Vector3.zero;
+        mapChunk.transform.position = Vector3.zero;
 
         GameObject chunkStitch = Instantiate(chunkStitchPrefab, spawnPosition, Quaternion.identity);
         chunkStitch.GetComponent<ChunkStitcher>().Generate(mapChunks[mapChunks.Count-1], mapChunk);
         chunkStitch.transform.SetParent(mapChunks[mapChunks.Count-1].transform);
+        chunkStitch.transform.position = Vector3.zero;
 
         lastChunkID = nextChunkID;
         mapChunks.Add(mapChunk);
