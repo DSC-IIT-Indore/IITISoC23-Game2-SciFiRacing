@@ -22,7 +22,7 @@ public class MapGenerator : MonoBehaviour
     [SerializeField]
     private List<GameObject> mapChunks = new List<GameObject>();
     public TerrainSetting terrainSetting;
-    public GameObject mapChunkPrefab;
+    public GameObject mapChunkPrefab, chunkStitchPrefab;
     public float maxSpawnDistance = 500f;
 
     private Vector3 spawnPosition = Vector3.zero;
@@ -37,16 +37,11 @@ public class MapGenerator : MonoBehaviour
         mapChunk.GetComponent<ProceduralTerrain>().Generate();
         mapChunk.transform.position = Vector3.zero;
         mapChunks.Add(mapChunk);
-        spawnPosition += new Vector3(0, 0, terrainSetting.length-1); // IDK why I have to subtract 1, but it works
+        spawnPosition += mapChunk.GetComponent<ProceduralTerrain>().deltaSpawnPosition; // IDK why I have to subtract 1, but it works
     }
 
     void Update()
     {
-        // if(mapChunks.Count < maxActiveChunks)
-        // {
-        //     GenerateMapChunk();
-        // }
-
         virtualCamera.enabled = true;
 
         if(Input.GetKeyDown(KeyCode.Space))
@@ -60,6 +55,13 @@ public class MapGenerator : MonoBehaviour
             mapChunks.RemoveAt(0);
         }
 
+        ResetToOrigin();
+        
+    }
+
+
+    private void ResetToOrigin()
+    {
         if(spawnPosition.sqrMagnitude > maxSpawnDistance * maxSpawnDistance)
         {
             virtualCamera.enabled = false;
@@ -72,8 +74,8 @@ public class MapGenerator : MonoBehaviour
             }            
             spawnPosition = Vector3.zero;
         }
-        
     }
+
 
     private void GenerateMapChunk()
     {
@@ -83,10 +85,16 @@ public class MapGenerator : MonoBehaviour
         GameObject mapChunk = Instantiate(mapChunkPrefab, spawnPosition, Quaternion.identity);
         mapChunk.GetComponent<ProceduralTerrain>().Generate(nextChunkID);
         Debug.Log("Chunk Generated with ID: " + nextChunkID);
-        mapChunk.transform.position = Vector3.zero;
+        //mapChunk.transform.position = Vector3.zero;
+
+        GameObject chunkStitch = Instantiate(chunkStitchPrefab, spawnPosition, Quaternion.identity);
+        
+
         lastChunkID = nextChunkID;
         mapChunks.Add(mapChunk);
         spawnPosition += mapChunk.GetComponent<ProceduralTerrain>().deltaSpawnPosition;
         Debug.Log("Spawn Position: " + spawnPosition); 
     }
+
+    
 }

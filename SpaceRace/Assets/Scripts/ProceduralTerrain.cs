@@ -35,7 +35,7 @@ public class ProceduralTerrain : MonoBehaviour
     public int trackWidth = 4; // Width of the track in vertices
     public float edgeSmoothing = 2f; // Smoothing of the edges of the track
     public TrackID _trackID;
-    private int trackID = (int)TrackID.SouthToNorth; // ID of the track
+    public int trackID = (int)TrackID.SouthToNorth; // ID of the track
     public float curveResolution = 0.005f;
     public float curvePadding = 0f;
 
@@ -43,20 +43,13 @@ public class ProceduralTerrain : MonoBehaviour
     public Vector3 deltaSpawnPosition = Vector3.zero; // Change in spawn position due to this terrain
 
     private Mesh mesh; // Mesh of the terrain
-    private Vector3[] vertices; // Vertices of the terrain
+    public Vector3[] vertices; // Vertices of the terrain
     private int[] triangles; // Triangles of the terrain
     private float minTerrainHeight, maxTerrainHeight; // Min and max height of the terrain
     
 
     void Awake()
     {
-        trackID = (int)_trackID;
-        Generate(trackID);
-    }
-
-    public void Generate(int _trackID_ = 13)
-    {   
-        trackID = _trackID_;
         terrainSetting = (TerrainSetting)Resources.Load("TerrainSettingSmall", typeof(TerrainSetting));
 
         //Set the terrain settings from the TerrainSetting scriptable object
@@ -75,6 +68,14 @@ public class ProceduralTerrain : MonoBehaviour
         edgeSmoothing = terrainSetting.edgeSmoothing;
         curveResolution = terrainSetting.curveResolution;
         curvePadding = terrainSetting.curvePadding;
+
+        trackID = (int)_trackID;
+        Generate(trackID);
+    }
+
+    public void Generate(int _trackID_ = 13)
+    {   
+        trackID = _trackID_;
 
         // Create the mesh and update it
         mesh = new Mesh();
@@ -96,6 +97,9 @@ public class ProceduralTerrain : MonoBehaviour
         }
         
     }
+
+
+    // Terrain Generation Functions
 
     private void CreateTerrain()
     {
@@ -172,6 +176,10 @@ public class ProceduralTerrain : MonoBehaviour
         mesh.RecalculateNormals();
     }
 
+
+
+    // Track generation functions
+
     private void GenerateTrack(int ID)
     {
 
@@ -180,66 +188,66 @@ public class ProceduralTerrain : MonoBehaviour
         {
             case (int)TrackID.SouthToNorth:
                 GenerateSouthToNorth();
-                deltaSpawnPosition = new Vector3(0, 0, length-1); // IDK why I have to subtract 1 but it works
+                deltaSpawnPosition = new Vector3(0, 0, length); // Change in spawn position due to this terrain
                 break;
             
             case (int)TrackID.WestToEast:
                 GenerateWestToEast();
-                deltaSpawnPosition = new Vector3(width-1, 0, 0);
+                deltaSpawnPosition = new Vector3(width, 0, 0);
                 break;
 
             case (int)TrackID.EastToWest:
                 GenerateEastToWest();
-                deltaSpawnPosition = new Vector3(-width+1, 0, 0);
+                deltaSpawnPosition = new Vector3(-width, 0, 0);
                 break;
 
             case (int)TrackID.SouthToEast:
                 GenerateSouthToEast();
-                deltaSpawnPosition = new Vector3(width-1, 0, 0);
+                deltaSpawnPosition = new Vector3(width, 0, 0);
                 break;
 
             case (int)TrackID.SouthToWest:
                 GenerateSouthToWest();
-                deltaSpawnPosition = new Vector3(-width+1, 0, 0);
+                deltaSpawnPosition = new Vector3(-width, 0, 0);
                 break;
 
             case (int)TrackID.EastToNorth:
                 GenerateEastToNorth();
-                deltaSpawnPosition = new Vector3(0, 0, length-1);
+                deltaSpawnPosition = new Vector3(0, 0, length);
                 break;
 
             case (int)TrackID.WestToNorth:
                 GenerateWestToNorth();
-                deltaSpawnPosition = new Vector3(0, 0, length-1);
+                deltaSpawnPosition = new Vector3(0, 0, length);
                 break;
 
             default:
                 GenerateSouthToNorth();
-                deltaSpawnPosition = new Vector3(0, 0, length-1);
+                deltaSpawnPosition = new Vector3(0, 0, length);
                 break;
         }
 
     }
 
     // Utility functions
-    private int CoordToVert(Vector2 coord)
+    public int CoordToVert(Vector2 coord)
     {
         int v = (int)coord.y * (width + 1) + (int)coord.x;
         v = Mathf.Clamp(v, 0, vertices.Length - 1);
         return v;
     }
 
-    private int OffsetX(int _vertIndex, int _offset)
+    public int OffsetX(int _vertIndex, int _offset)
     {
         return _vertIndex + _offset;
     }
 
-    private int OffsetZ(int _vertIndex, int _offset)
+    public int OffsetZ(int _vertIndex, int _offset)
     {
         return _vertIndex + _offset * (width + 1);
     }
 
-    private Vector2 QuadraticCurve(Vector2 a, Vector2 b, Vector2 c, float t)
+    public Vector2 QuadraticCurve(Vector2 a, Vector2 b, Vector2 c, float t)
     {
         Vector2 p0 = Vector2.Lerp(a, b, t);
         Vector2 p1 = Vector2.Lerp(b, c, t);
@@ -247,7 +255,7 @@ public class ProceduralTerrain : MonoBehaviour
     }
 
 
-    // Track generation functions
+    // Track generator functions
     private void GenerateSouthToNorth()
     {
         // Generate the track from south to north
