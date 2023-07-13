@@ -56,13 +56,13 @@ public class ChunkStitcher : MonoBehaviour
             if(currentChunkEntry == 1){
                 i = 0;
                 int _j = j - (terrainSetting.width+1);
-                vertices[j] = currentChunkTerrain.vertices[currentChunkTerrain.CoordToVert(j, i)];
+                vertices[j] = currentChunkTerrain.vertices[currentChunkTerrain.CoordToVert(_j, i)];
             }
             else{
                 if(currentChunkEntry == 2) i = 0;
                 else i = terrainSetting.width;
                 int _j = j - (terrainSetting.width+1);
-                vertices[j] = currentChunkTerrain.vertices[currentChunkTerrain.CoordToVert(i, j)];
+                vertices[j] = currentChunkTerrain.vertices[currentChunkTerrain.CoordToVert(i, _j)];
             }
             j++;
         }   
