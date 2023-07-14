@@ -33,7 +33,6 @@ public class MapGenerator : MonoBehaviour
     void Start()
     {
         terrainSetting = (TerrainSetting)Resources.Load("TerrainSettingSmall", typeof(TerrainSetting));
-        //chunkStitcher = GetComponent<ChunkStitcher>();
         chunkStitcher = new ChunkStitcher();
         
         GameObject mapChunk = Instantiate(mapChunkPrefab, spawnPosition, Quaternion.identity);
@@ -41,6 +40,11 @@ public class MapGenerator : MonoBehaviour
         mapChunk.transform.position = Vector3.zero;
         mapChunks.Add(mapChunk);
         spawnPosition += mapChunk.GetComponent<ProceduralTerrain>().deltaSpawnPosition; // IDK why I have to subtract 1, but it works
+
+        for(int i=0; i<maxActiveChunks-1; i++){
+            GenerateMapChunk();
+        }
+
     }
 
     void Update()
@@ -68,7 +72,6 @@ public class MapGenerator : MonoBehaviour
 
     private void ResetToOrigin()
     {
-
         virtualCamera.enabled = false;
         foreach(GameObject obj in SceneManager.GetActiveScene().GetRootGameObjects())
         {

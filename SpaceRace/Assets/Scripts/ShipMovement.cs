@@ -23,6 +23,7 @@ public class ShipMovement : MonoBehaviour
         rb = GetComponent<Rigidbody>();
         rb.velocity = transform.forward * minSpeed;
         
+        Cursor.lockState = CursorLockMode.Locked;
     }
 
     void Update()
@@ -52,8 +53,8 @@ public class ShipMovement : MonoBehaviour
             Vector3 forceDir = -rb.velocity.normalized * deceleration * Time.fixedDeltaTime;
             rb.AddForce(forceDir, ForceMode.Acceleration);
         }
- 
-        rb.velocity = Vector3.Lerp(rb.velocity, transform.forward * velMag, dragCoefficient*Time.fixedDeltaTime);
 
+        rb.velocity = Vector3.Lerp(rb.velocity, transform.forward * velMag, dragCoefficient*Time.fixedDeltaTime);
+        
     }
 }
