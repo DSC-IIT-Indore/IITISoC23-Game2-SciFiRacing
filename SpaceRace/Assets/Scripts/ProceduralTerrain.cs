@@ -178,7 +178,6 @@ public class ProceduralTerrain : MonoBehaviour
     }
 
 
-
     // Track generation functions
 
     private void GenerateTrack(int ID)

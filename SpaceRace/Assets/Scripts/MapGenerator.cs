@@ -19,10 +19,11 @@ public class MapGenerator : MonoBehaviour
     };
 
     public CinemachineVirtualCamera virtualCamera;
+    private ChunkStitcher chunkStitcher;
     [SerializeField]
     private List<GameObject> mapChunks = new List<GameObject>();
     public TerrainSetting terrainSetting;
-    public GameObject mapChunkPrefab, chunkStitchPrefab;
+    public GameObject mapChunkPrefab;
     public float maxSpawnDistance = 500f;
 
     private Vector3 spawnPosition = Vector3.zero;
@@ -32,7 +33,9 @@ public class MapGenerator : MonoBehaviour
     void Start()
     {
         terrainSetting = (TerrainSetting)Resources.Load("TerrainSettingSmall", typeof(TerrainSetting));
-
+        //chunkStitcher = GetComponent<ChunkStitcher>();
+        chunkStitcher = new ChunkStitcher();
+        
         GameObject mapChunk = Instantiate(mapChunkPrefab, spawnPosition, Quaternion.identity);
         mapChunk.GetComponent<ProceduralTerrain>().Generate();
         mapChunk.transform.position = Vector3.zero;
@@ -55,25 +58,26 @@ public class MapGenerator : MonoBehaviour
             mapChunks.RemoveAt(0);
         }
 
-        ResetToOrigin();
+        if(spawnPosition.sqrMagnitude > maxSpawnDistance * maxSpawnDistance)
+        {
+            ResetToOrigin();
+        }
         
     }
 
 
     private void ResetToOrigin()
     {
-        if(spawnPosition.sqrMagnitude > maxSpawnDistance * maxSpawnDistance)
+
+        virtualCamera.enabled = false;
+        foreach(GameObject obj in SceneManager.GetActiveScene().GetRootGameObjects())
         {
-            virtualCamera.enabled = false;
-            foreach(GameObject obj in SceneManager.GetActiveScene().GetRootGameObjects())
-            {
-                if(obj.layer == LayerMask.NameToLayer("Static")){
-                    continue;
-                }
-                obj.transform.position -= spawnPosition * terrainSetting.spacingIndex;
-            }            
-            spawnPosition = Vector3.zero;
-        }
+            if(obj.layer == LayerMask.NameToLayer("Static")){
+                continue;
+            }
+            obj.transform.position -= spawnPosition * terrainSetting.spacingIndex;
+        }            
+        spawnPosition = Vector3.zero;
     }
 
 
@@ -86,11 +90,7 @@ public class MapGenerator : MonoBehaviour
         mapChunk.GetComponent<ProceduralTerrain>().Generate(nextChunkID);
         Debug.Log("Chunk Generated with ID: " + nextChunkID);
         mapChunk.transform.position = Vector3.zero;
-
-        GameObject chunkStitch = Instantiate(chunkStitchPrefab, spawnPosition, Quaternion.identity);
-        chunkStitch.GetComponent<ChunkStitcher>().Generate(mapChunks[mapChunks.Count-1], mapChunk);
-        chunkStitch.transform.SetParent(mapChunks[mapChunks.Count-1].transform);
-        chunkStitch.transform.position = Vector3.zero;
+        chunkStitcher.Stitch(mapChunks[mapChunks.Count-1], mapChunk);
 
         lastChunkID = nextChunkID;
         mapChunks.Add(mapChunk);
