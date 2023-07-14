@@ -3,15 +3,17 @@ using UnityEngine;
 public class ShipMovement : MonoBehaviour
 {
     [Header("Ship Settings")]
-    public float acceleration = 10f, deceleration = 10f;
+    public float acceleration = 5000f;
+    public float deceleration = 1000f;
     public float minSpeed = 200f;
-    public float maxSpeed = 100f;
+    public float maxSpeed = 400f;
 
     public float dragCoefficient = 1f;
     
-    private float accelInput;
+    private bool accelInput;
     private float vertical, horizontal;
     public float horizontalSpeed = 2.0f, verticalSpeed = 2.0f;
+    public float tiltSpeed = 2.0f;
 
     public Transform playerModel;
     private Rigidbody rb;
@@ -27,9 +29,10 @@ public class ShipMovement : MonoBehaviour
     {
         vertical = Input.GetAxis("Mouse Y") * verticalSpeed;
         horizontal = Input.GetAxis("Mouse X") * horizontalSpeed;
-        accelInput = Input.GetKey(KeyCode.LeftShift) ? 1 : 0;
+        accelInput = Input.GetKey(KeyCode.LeftShift);
 
-        Vector3 rotation = new Vector3(vertical, horizontal/2f, -horizontal);
+        Vector3 targetRotation = new Vector3(vertical, horizontal/2f, -horizontal);
+        Vector3 rotation = Vector3.Lerp(Vector3.zero, targetRotation, tiltSpeed * Time.deltaTime);
         transform.Rotate(rotation);
     }
 
@@ -41,9 +44,10 @@ public class ShipMovement : MonoBehaviour
             Vector3 forceDir = transform.forward * acceleration * Time.fixedDeltaTime;
             rb.AddForce(forceDir, ForceMode.Acceleration);
         }
-        if(accelInput==1f && velMag < maxSpeed){
+        if(accelInput && velMag < maxSpeed){
             Vector3 forceDir = transform.forward * acceleration * Time.fixedDeltaTime;
             rb.AddForce(forceDir, ForceMode.Acceleration);
+
         }else if(velMag > minSpeed * 1.1f){
             Vector3 forceDir = -rb.velocity.normalized * deceleration * Time.fixedDeltaTime;
             rb.AddForce(forceDir, ForceMode.Acceleration);
