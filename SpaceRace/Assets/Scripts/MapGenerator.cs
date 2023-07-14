@@ -39,7 +39,7 @@ public class MapGenerator : MonoBehaviour
         mapChunk.GetComponent<ProceduralTerrain>().Generate();
         mapChunk.transform.position = Vector3.zero;
         mapChunks.Add(mapChunk);
-        spawnPosition += mapChunk.GetComponent<ProceduralTerrain>().deltaSpawnPosition; // IDK why I have to subtract 1, but it works
+        spawnPosition += mapChunk.GetComponent<ProceduralTerrain>().deltaSpawnPosition; 
 
         for(int i=0; i<maxActiveChunks-1; i++){
             GenerateMapChunk();
