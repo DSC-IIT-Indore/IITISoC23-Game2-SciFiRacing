@@ -47,7 +47,7 @@ public class ProceduralTerrain : MonoBehaviour
     public Vector3[] vertices; // Vertices of the terrain
     private int[] triangles; // Triangles of the terrain
     [HideInInspector]
-    public float minTerrainHeight = float.MinValue, maxTerrainHeight = float.MinValue; // Min and max height of the terrain
+    public float minTerrainHeight, maxTerrainHeight; // Min and max height of the terrain
     
 
     void Awake()
