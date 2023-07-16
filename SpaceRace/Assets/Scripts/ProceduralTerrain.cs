@@ -470,7 +470,7 @@ public class ProceduralTerrain : MonoBehaviour
             Vector2 exit = new Vector2(x, z);
 
             // Find the mid point
-            Vector2 midPoint = new Vector2(0, length);
+            Vector2 midPoint = new Vector2(width/2, length/2);
 
             float t = 0;
             Vector2 prevPoint = entry;
@@ -576,7 +576,7 @@ public class ProceduralTerrain : MonoBehaviour
             Vector2 exit = new Vector2(x, z);
 
             // Find the mid point
-            Vector2 midPoint = new Vector2(width, length);
+            Vector2 midPoint = new Vector2(width/2, length/2);
 
             float t = 0;
             Vector2 prevPoint = entry;
@@ -682,7 +682,7 @@ public class ProceduralTerrain : MonoBehaviour
             Vector2 exit = new Vector2(x, z);
 
             // Find the mid point
-            Vector2 midPoint = new Vector2(0, 0);
+            Vector2 midPoint = new Vector2(width/2, length/2);
 
             float t = 0;
             Vector2 prevPoint = entry;
@@ -788,7 +788,7 @@ public class ProceduralTerrain : MonoBehaviour
             Vector2 exit = new Vector2(x, z);
 
             // Find the mid point
-            Vector2 midPoint = new Vector2(width, 0);
+            Vector2 midPoint = new Vector2(width/2, length/2);
 
             float t = 0;
             Vector2 prevPoint = entry;
