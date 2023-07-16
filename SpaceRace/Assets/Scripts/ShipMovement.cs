@@ -10,11 +10,13 @@ public class ShipMovement : MonoBehaviour
 
     public float dragCoefficient = 1f;
     
+    [Header("Input Settings")]
     private bool accelInput;
     private float vertical, horizontal;
     private float verticalDisplacement = 0f, horizontalDisplacement = 0f;
     public float maxVerticalDisplacement = 30f, maxHorizontalDisplacement = 30f;
     public float horizontalSpeed = 2.0f, verticalSpeed = 2.0f;
+    public float maxHorizontalDelta = 1f, maxVerticalDelta = 1f;
     private float lastHorizontal = 0, lastVertical = 0;
     public float tiltSpeed = 2.0f;
 
@@ -40,10 +42,12 @@ public class ShipMovement : MonoBehaviour
 
         if(Mathf.Abs(verticalDisplacement) >= maxVerticalDisplacement){
             vertical = lastVertical;
+            vertical = Mathf.Clamp(vertical, -maxVerticalDelta, maxVerticalDelta);
         }
         
         if(Mathf.Abs(horizontalDisplacement) >= maxHorizontalDisplacement){
             horizontal = lastHorizontal;
+            horizontal = Mathf.Clamp(horizontal, -maxHorizontalDelta, maxHorizontalDelta);
         }
 
         lastHorizontal = horizontal != 0 ? horizontal : lastHorizontal;

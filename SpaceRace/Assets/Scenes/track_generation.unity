@@ -209,7 +209,8 @@ Transform:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 330585543}
-  m_LocalRotation: {x: 0.18910751, y: 0.000000008447955, z: -0.0000000016269276, w: 0.9819564}
+  m_LocalRotation: {x: 0.18910751, y: -0.0000000084479606, z: 0.0000000016269286,
+    w: 0.9819564}
   m_LocalPosition: {x: 0, y: 204, z: -10}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
@@ -604,7 +605,8 @@ Transform:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 808862390}
-  m_LocalRotation: {x: 0.18910751, y: 0.000000008447955, z: -0.0000000016269276, w: 0.9819564}
+  m_LocalRotation: {x: 0.18910751, y: -0.0000000084479606, z: 0.0000000016269286,
+    w: 0.9819564}
   m_LocalPosition: {x: 0, y: 204, z: -10}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
@@ -2385,13 +2387,12 @@ MonoBehaviour:
   minSpeed: 0
   maxSpeed: 300
   dragCoefficient: 1
-  verticalDisplacement: 0
-  horizontalDisplacement: 0
-  maxVerticalDisplacement: 30
-  maxHorizontalDisplacement: 30
+  maxVerticalDisplacement: 50
+  maxHorizontalDisplacement: 50
   horizontalSpeed: 2
   verticalSpeed: 2
-  constDelta: 0.4
+  maxHorizontalDelta: 1
+  maxVerticalDelta: 1
   tiltSpeed: 80
   playerModel: {fileID: 421002979}
 --- !u!23 &6371312703195064693
