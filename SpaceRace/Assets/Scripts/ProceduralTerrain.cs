@@ -48,7 +48,6 @@ public class ProceduralTerrain : MonoBehaviour
     private int[] triangles; // Triangles of the terrain
     [HideInInspector]
     public float minTerrainHeight, maxTerrainHeight; // Min and max height of the terrain
-    
 
     void Awake()
     {
@@ -87,6 +86,7 @@ public class ProceduralTerrain : MonoBehaviour
         GetComponent<MeshFilter>().mesh = mesh;
         CreateTerrain();
         GenerateTrack(trackID);
+        UpdateMinMaxHeight();
         UpdateMesh();
         GetComponent<MeshCollider>().sharedMesh = mesh;
     }
@@ -98,7 +98,7 @@ public class ProceduralTerrain : MonoBehaviour
             trackID = (int)_trackID;
             CreateTerrain();
             GenerateTrack(trackID);
-            GetMinMaxHeight();
+            UpdateMinMaxHeight();
             UpdateMesh();
         }
         
@@ -135,8 +135,8 @@ public class ProceduralTerrain : MonoBehaviour
                 vertices[vertIndex] = new Vector3(_x * spacingIndex, y, _z * spacingIndex);
 
                 // Get the min and max height of the terrain
-                // if(y > maxTerrainHeight) maxTerrainHeight = y;
-                // if(y < minTerrainHeight) minTerrainHeight = y;
+                if(y > maxTerrainHeight) maxTerrainHeight = y;
+                if(y < minTerrainHeight) minTerrainHeight = y;
 
                 vertIndex++;
             }
@@ -167,7 +167,7 @@ public class ProceduralTerrain : MonoBehaviour
     }
 
 
-    private void GetMinMaxHeight()
+    private void UpdateMinMaxHeight()
     {
         for(int i=0; i < vertices.Length; i++){
             minTerrainHeight = Mathf.Min(vertices[i].y, minTerrainHeight);
