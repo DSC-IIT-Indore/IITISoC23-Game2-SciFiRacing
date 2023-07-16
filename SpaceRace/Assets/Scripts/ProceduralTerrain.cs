@@ -54,6 +54,9 @@ public class ProceduralTerrain : MonoBehaviour
     {
         terrainSetting = (TerrainSetting)Resources.Load("TerrainSettingSmall", typeof(TerrainSetting));
 
+        minTerrainHeight = float.MinValue;
+        maxTerrainHeight = float.MaxValue;
+
         //Set the terrain settings from the TerrainSetting scriptable object
         width = terrainSetting.width;
         length = terrainSetting.length;
