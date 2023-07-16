@@ -12,15 +12,12 @@ public class ShipMovement : MonoBehaviour
 
     // Input settings 
     [Header("Input Settings")]
-    public float maxVerticalDisplacement = 30f;
-    public float maxHorizontalDisplacement = 30f;
-    public float horizontalSpeed = 2.0f, verticalSpeed = 2.0f;
-    public float maxHorizontalDelta = 1f, maxVerticalDelta = 1f;
-    public float tiltSpeed = 2.0f;
-    private float verticalDisplacement = 0f, horizontalDisplacement = 0f;
+    public float turnSpeed = 2.0f;
+    public float maxHorizontalAngularSpeed = 10f;
+    public float maxVerticalAngularSpeed = 10f;
+
     private bool accelInput;
-    private float vertical, horizontal;
-    private float lastHorizontal = 0, lastVertical = 0;
+    private Vector3 mousePos;
 
     private Rigidbody rb;
 
@@ -28,42 +25,17 @@ public class ShipMovement : MonoBehaviour
     {
         rb = GetComponent<Rigidbody>();
         rb.velocity = transform.forward * minSpeed;
-        
-        Cursor.lockState = CursorLockMode.Locked;
+
+        //Cursor.lockState = CursorLockMode.Locked;
+        Cursor.visible = false;
     }
 
     void Update()
     {
         // Get input
-        vertical = Input.GetAxis("Mouse Y");
-        horizontal = Input.GetAxis("Mouse X");
+        mousePos = Input.mousePosition - new Vector3(Screen.width/2f, Screen.height/2f, 0f);
         accelInput = Input.GetKey(KeyCode.LeftShift);
-
-        // Calculate displacement
-        verticalDisplacement = Mathf.Clamp(verticalDisplacement + vertical, -maxVerticalDisplacement, maxVerticalDisplacement);
-        horizontalDisplacement = Mathf.Clamp(horizontalDisplacement + horizontal, -maxHorizontalDisplacement, maxHorizontalDisplacement);
-
-        // Calculate rotation
-        if(Mathf.Abs(verticalDisplacement) >= maxVerticalDisplacement){
-            vertical = lastVertical;
-            vertical = Mathf.Clamp(vertical, -maxVerticalDelta, maxVerticalDelta);
-        }
         
-        if(Mathf.Abs(horizontalDisplacement) >= maxHorizontalDisplacement){
-            horizontal = lastHorizontal;
-            horizontal = Mathf.Clamp(horizontal, -maxHorizontalDelta, maxHorizontalDelta);
-        }
-
-        lastHorizontal = horizontal != 0 ? horizontal : lastHorizontal;
-        lastVertical = vertical != 0 ? vertical : lastVertical;
-
-        vertical *= verticalSpeed;
-        horizontal *= horizontalSpeed;
-
-        // Rotate ship
-        Vector3 targetRotation = new Vector3(vertical, horizontal/2f, -horizontal);
-        Vector3 rotation = Vector3.Lerp(Vector3.zero, targetRotation, tiltSpeed * Time.deltaTime);
-        transform.Rotate(rotation);
     }
 
     void FixedUpdate()
@@ -83,6 +55,13 @@ public class ShipMovement : MonoBehaviour
             Vector3 forceDir = -rb.velocity.normalized * deceleration * Time.fixedDeltaTime;
             rb.AddForce(forceDir, ForceMode.Acceleration);
         }
+
+        // Rotate ship
+        float horizontal = (mousePos.x / Screen.width) * 2f * maxHorizontalAngularSpeed * Time.fixedDeltaTime;
+        float vertical = (mousePos.y / Screen.height) * 2f * maxVerticalAngularSpeed * Time.fixedDeltaTime;
+        Vector3 targetRotation = new Vector3(vertical, horizontal/2f, -horizontal);
+        Vector3 rotation = Vector3.Lerp(Vector3.zero, targetRotation, turnSpeed * Time.fixedDeltaTime);
+        transform.Rotate(rotation);
 
         // Change the velocity direction to match the ship's forward direction
         rb.velocity = Vector3.Lerp(rb.velocity, transform.forward * velMag, dragCoefficient*Time.fixedDeltaTime);
