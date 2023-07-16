@@ -12,10 +12,10 @@ public class ShipMovement : MonoBehaviour
     
     private bool accelInput;
     private float vertical, horizontal;
-    public float verticalDisplacement = 0f, horizontalDisplacement = 0f;
+    private float verticalDisplacement = 0f, horizontalDisplacement = 0f;
     public float maxVerticalDisplacement = 30f, maxHorizontalDisplacement = 30f;
     public float horizontalSpeed = 2.0f, verticalSpeed = 2.0f;
-    public float constDelta = 1;
+    private float lastHorizontal = 0, lastVertical = 0;
     public float tiltSpeed = 2.0f;
 
     public Transform playerModel;
@@ -38,17 +38,16 @@ public class ShipMovement : MonoBehaviour
         verticalDisplacement = Mathf.Clamp(verticalDisplacement + vertical, -maxVerticalDisplacement, maxVerticalDisplacement);
         horizontalDisplacement = Mathf.Clamp(horizontalDisplacement + horizontal, -maxHorizontalDisplacement, maxHorizontalDisplacement);
 
-        if(verticalDisplacement >= maxVerticalDisplacement){
-            vertical = constDelta;
-        }else if(verticalDisplacement <= -maxVerticalDisplacement){
-            vertical = -constDelta;
+        if(Mathf.Abs(verticalDisplacement) >= maxVerticalDisplacement){
+            vertical = lastVertical;
         }
         
-        if(horizontalDisplacement >= maxHorizontalDisplacement){
-            horizontal = constDelta;
-        }else if(horizontalDisplacement <= -maxHorizontalDisplacement){
-            horizontal = -constDelta;
+        if(Mathf.Abs(horizontalDisplacement) >= maxHorizontalDisplacement){
+            horizontal = lastHorizontal;
         }
+
+        lastHorizontal = horizontal != 0 ? horizontal : lastHorizontal;
+        lastVertical = vertical != 0 ? vertical : lastVertical;
 
         vertical *= verticalSpeed;
         horizontal *= horizontalSpeed;
