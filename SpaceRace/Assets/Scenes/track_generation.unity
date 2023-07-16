@@ -2385,8 +2385,13 @@ MonoBehaviour:
   minSpeed: 200
   maxSpeed: 300
   dragCoefficient: 1
+  verticalDisplacement: 0
+  horizontalDisplacement: 0
+  maxVerticalDisplacement: 30
+  maxHorizontalDisplacement: 30
   horizontalSpeed: 2
   verticalSpeed: 2
+  constDelta: 0.4
   tiltSpeed: 100
   playerModel: {fileID: 421002979}
 --- !u!23 &6371312703195064693

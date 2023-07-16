@@ -12,7 +12,10 @@ public class ShipMovement : MonoBehaviour
     
     private bool accelInput;
     private float vertical, horizontal;
+    public float verticalDisplacement = 0f, horizontalDisplacement = 0f;
+    public float maxVerticalDisplacement = 30f, maxHorizontalDisplacement = 30f;
     public float horizontalSpeed = 2.0f, verticalSpeed = 2.0f;
+    public float constDelta = 1;
     public float tiltSpeed = 2.0f;
 
     public Transform playerModel;
@@ -28,9 +31,27 @@ public class ShipMovement : MonoBehaviour
 
     void Update()
     {
-        vertical = Input.GetAxis("Mouse Y") * verticalSpeed;
-        horizontal = Input.GetAxis("Mouse X") * horizontalSpeed;
+        vertical = Input.GetAxis("Mouse Y");
+        horizontal = Input.GetAxis("Mouse X");
         accelInput = Input.GetKey(KeyCode.LeftShift);
+
+        verticalDisplacement = Mathf.Clamp(verticalDisplacement + vertical, -maxVerticalDisplacement, maxVerticalDisplacement);
+        horizontalDisplacement = Mathf.Clamp(horizontalDisplacement + horizontal, -maxHorizontalDisplacement, maxHorizontalDisplacement);
+
+        if(verticalDisplacement >= maxVerticalDisplacement){
+            vertical = constDelta;
+        }else if(verticalDisplacement <= -maxVerticalDisplacement){
+            vertical = -constDelta;
+        }
+        
+        if(horizontalDisplacement >= maxHorizontalDisplacement){
+            horizontal = constDelta;
+        }else if(horizontalDisplacement <= -maxHorizontalDisplacement){
+            horizontal = -constDelta;
+        }
+
+        vertical *= verticalSpeed;
+        horizontal *= horizontalSpeed;
 
         Vector3 targetRotation = new Vector3(vertical, horizontal/2f, -horizontal);
         Vector3 rotation = Vector3.Lerp(Vector3.zero, targetRotation, tiltSpeed * Time.deltaTime);
