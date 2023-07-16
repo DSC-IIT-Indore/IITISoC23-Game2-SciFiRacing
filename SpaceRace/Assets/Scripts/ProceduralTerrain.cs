@@ -43,6 +43,7 @@ public class ProceduralTerrain : MonoBehaviour
     public Vector3 deltaSpawnPosition = Vector3.zero; // Change in spawn position due to this terrain
 
     private Mesh mesh; // Mesh of the terrain
+    [HideInInspector]
     public Vector3[] vertices; // Vertices of the terrain
     private int[] triangles; // Triangles of the terrain
     [HideInInspector]
