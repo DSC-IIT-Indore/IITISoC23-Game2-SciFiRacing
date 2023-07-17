@@ -15,6 +15,7 @@ public class ShipMovement : MonoBehaviour
     public float turnSpeed = 2.0f;
     public float maxHorizontalAngularSpeed = 10f;
     public float maxVerticalAngularSpeed = 10f;
+    public bool getMousePos = false;
 
     private bool accelInput;
     private Vector3 mousePos;
@@ -30,10 +31,30 @@ public class ShipMovement : MonoBehaviour
         Cursor.visible = false;
     }
 
+    public void ActivateInput()
+    {
+        Cursor.lockState = CursorLockMode.Locked;
+        getMousePos = true;
+        Cursor.lockState = CursorLockMode.None;
+        Cursor.visible = false;
+    }
+
+    public void DeactivateInput()
+    {
+        Cursor.lockState = CursorLockMode.Locked;
+        getMousePos = false;
+    }
+
     void Update()
     {
         // Get input
-        mousePos = Input.mousePosition - new Vector3(Screen.width/2f, Screen.height/2f, 0f);
+        if(getMousePos) mousePos = Input.mousePosition - new Vector3(Screen.width/2f, Screen.height/2f, 0f);
+        else mousePos = Vector3.Lerp(mousePos, Vector3.zero, turnSpeed * Time.deltaTime);
+
+        // Activate or deactivate input
+        if(Input.GetKeyDown(KeyCode.LeftControl)) ActivateInput();
+        if(Input.GetKeyDown(KeyCode.LeftAlt)) DeactivateInput();
+
         accelInput = Input.GetKey(KeyCode.LeftShift);
         
     }
