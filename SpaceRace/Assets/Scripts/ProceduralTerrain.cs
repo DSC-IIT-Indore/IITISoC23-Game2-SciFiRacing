@@ -43,15 +43,18 @@ public class ProceduralTerrain : MonoBehaviour
     public Vector3 deltaSpawnPosition = Vector3.zero; // Change in spawn position due to this terrain
 
     private Mesh mesh; // Mesh of the terrain
+    [HideInInspector]
     public Vector3[] vertices; // Vertices of the terrain
     private int[] triangles; // Triangles of the terrain
     [HideInInspector]
     public float minTerrainHeight, maxTerrainHeight; // Min and max height of the terrain
-    
 
     void Awake()
     {
         terrainSetting = (TerrainSetting)Resources.Load("TerrainSettingSmall", typeof(TerrainSetting));
+
+        minTerrainHeight = float.MinValue;
+        maxTerrainHeight = float.MaxValue;
 
         //Set the terrain settings from the TerrainSetting scriptable object
         width = terrainSetting.width;
@@ -83,6 +86,7 @@ public class ProceduralTerrain : MonoBehaviour
         GetComponent<MeshFilter>().mesh = mesh;
         CreateTerrain();
         GenerateTrack(trackID);
+        UpdateMinMaxHeight();
         UpdateMesh();
         GetComponent<MeshCollider>().sharedMesh = mesh;
     }
@@ -94,6 +98,7 @@ public class ProceduralTerrain : MonoBehaviour
             trackID = (int)_trackID;
             CreateTerrain();
             GenerateTrack(trackID);
+            UpdateMinMaxHeight();
             UpdateMesh();
         }
         
@@ -132,6 +137,7 @@ public class ProceduralTerrain : MonoBehaviour
                 // Get the min and max height of the terrain
                 if(y > maxTerrainHeight) maxTerrainHeight = y;
                 if(y < minTerrainHeight) minTerrainHeight = y;
+
                 vertIndex++;
             }
         }
@@ -157,6 +163,15 @@ public class ProceduralTerrain : MonoBehaviour
 
                 triIndex += 6;
             }
+        }
+    }
+
+
+    private void UpdateMinMaxHeight()
+    {
+        for(int i=0; i < vertices.Length; i++){
+            minTerrainHeight = Mathf.Min(vertices[i].y, minTerrainHeight);
+            maxTerrainHeight = Mathf.Max(vertices[i].y, maxTerrainHeight);
         }
     }
 
