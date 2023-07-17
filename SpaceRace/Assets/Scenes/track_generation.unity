@@ -4426,7 +4426,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   acceleration: 5000
   deceleration: 2000
-  minSpeed: 200
+  minSpeed: 0
   maxSpeed: 300
   dragCoefficient: 2
   turnSpeed: 100

@@ -114,7 +114,7 @@ public class MapGenerator : MonoBehaviour
             if(hit.collider.gameObject.tag == "MapChunk")
             {
                 int index = mapChunks.IndexOf(hit.collider.gameObject);
-                if(index > 0){
+                if(index > 1){
                     Destroy(mapChunks[0]);
                     mapChunks.RemoveAt(0);
                     GenerateMapChunk();
