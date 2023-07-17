@@ -17,11 +17,11 @@ MonoBehaviour:
   scaleA: 0.06
   scaleB: 0.01
   scaleC: 0.09
-  heightMultiplier: 100
+  heightMultiplier: 120
   spacingIndex: 10
   gradient:
     serializedVersion: 2
-    key0: {r: 0.2901961, g: 0.19333334, b: 0.13725491, a: 1}
+    key0: {r: 0.2264151, g: 0.14644594, b: 0.10124599, a: 1}
     key1: {r: 0.3764706, g: 0.23267974, b: 0.20392157, a: 1}
     key2: {r: 0.22745098, g: 0.13542485, b: 0.1019608, a: 0}
     key3: {r: 0.5294118, g: 0.3281046, b: 0.22745095, a: 0}
@@ -29,8 +29,8 @@ MonoBehaviour:
     key5: {r: 0.4627451, g: 0.29385623, b: 0.1647059, a: 0}
     key6: {r: 0.34901962, g: 0.22901963, b: 0.14901961, a: 0}
     key7: {r: 0.42352942, g: 0.27607843, b: 0.23529412, a: 0}
-    ctime0: 17605
-    ctime1: 22454
+    ctime0: 5975
+    ctime1: 20239
     ctime2: 27564
     ctime3: 32823
     ctime4: 35994
@@ -51,7 +51,7 @@ MonoBehaviour:
     m_NumAlphaKeys: 2
   noiseScale: 0.01
   noiseHeightMultiplier: 50
-  trackWidth: 15
+  trackWidth: 20
   edgeSmoothing: 1
   curveResolution: 0.01
   curvePadding: 0.2
