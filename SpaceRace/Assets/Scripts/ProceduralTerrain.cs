@@ -49,7 +49,7 @@ public class ProceduralTerrain : MonoBehaviour
     [HideInInspector]
     public float minTerrainHeight, maxTerrainHeight; // Min and max height of the terrain
 
-    void Start()
+    void Awake()
     {
         terrainSetting = (TerrainSetting)Resources.Load("TerrainSettingSmall", typeof(TerrainSetting));
 
