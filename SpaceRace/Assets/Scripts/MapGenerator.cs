@@ -30,7 +30,7 @@ public class MapGenerator : MonoBehaviour
     private Vector3 spawnPosition = Vector3.zero;
     private int lastChunkID = 13;
     public int maxActiveChunks = 3;
-    public LayerMask layerMask;
+    private LayerMask layerMask;
 
     void Start()
     {
