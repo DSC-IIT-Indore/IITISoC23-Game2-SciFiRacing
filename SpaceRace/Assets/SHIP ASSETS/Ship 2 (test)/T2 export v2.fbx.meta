@@ -3,7 +3,57 @@ guid: a0e83a268a2499b48bac8bda56c111c7
 ModelImporter:
   serializedVersion: 22200
   internalIDToNameTable: []
-  externalObjects: {}
+  externalObjects:
+  - first:
+      type: UnityEngine:Material
+      assembly: UnityEngine.CoreModule
+      name: Dark Metal
+    second: {fileID: 2100000, guid: c0e4a99a530d75c4dbd1700aeb811ae2, type: 2}
+  - first:
+      type: UnityEngine:Material
+      assembly: UnityEngine.CoreModule
+      name: Dark iron
+    second: {fileID: 2100000, guid: 3303ead392dbadf46a0cfd03d9c89a1f, type: 2}
+  - first:
+      type: UnityEngine:Material
+      assembly: UnityEngine.CoreModule
+      name: Glow main
+    second: {fileID: 2100000, guid: 691ef2b7c8597eb43affa04eacaca026, type: 2}
+  - first:
+      type: UnityEngine:Material
+      assembly: UnityEngine.CoreModule
+      name: Grill Cloth
+    second: {fileID: 2100000, guid: 1874564917f66ff4abac28fdf2874eca, type: 2}
+  - first:
+      type: UnityEngine:Material
+      assembly: UnityEngine.CoreModule
+      name: Grill Cloth.001
+    second: {fileID: 2100000, guid: 13e728fd133e6a34cbfc2d00f54e898e, type: 2}
+  - first:
+      type: UnityEngine:Material
+      assembly: UnityEngine.CoreModule
+      name: Main body
+    second: {fileID: 2100000, guid: 96799764a63348745a44a2fbf4b1f8b7, type: 2}
+  - first:
+      type: UnityEngine:Material
+      assembly: UnityEngine.CoreModule
+      name: Rough white metal
+    second: {fileID: 2100000, guid: 85d9dfbc418dd3c4290ac224d17e200e, type: 2}
+  - first:
+      type: UnityEngine:Material
+      assembly: UnityEngine.CoreModule
+      name: emission
+    second: {fileID: 2100000, guid: 1c4d5868e3b478d4e922ff0ab0c8f7d3, type: 2}
+  - first:
+      type: UnityEngine:Material
+      assembly: UnityEngine.CoreModule
+      name: emission.001
+    second: {fileID: 2100000, guid: a38653f2d1ac1784fa40f2694fb82808, type: 2}
+  - first:
+      type: UnityEngine:Material
+      assembly: UnityEngine.CoreModule
+      name: windscreen emm
+    second: {fileID: 2100000, guid: 5ac67cf69f4053447961ee51cc66a8dd, type: 2}
   materials:
     materialImportMode: 2
     materialName: 0
