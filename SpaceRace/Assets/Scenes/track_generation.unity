@@ -209,7 +209,8 @@ Transform:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 330585543}
-  m_LocalRotation: {x: 0.18910751, y: 0.000000008447955, z: -0.0000000016269276, w: 0.9819564}
+  m_LocalRotation: {x: 0.18910751, y: -0.0000000084479606, z: 0.0000000016269286,
+    w: 0.9819564}
   m_LocalPosition: {x: 0, y: 204, z: -10}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
@@ -605,7 +606,8 @@ Transform:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 808862390}
-  m_LocalRotation: {x: 0.18910751, y: 0.000000008447955, z: -0.0000000016269276, w: 0.9819564}
+  m_LocalRotation: {x: 0.18910751, y: -0.0000000084479606, z: 0.0000000016269286,
+    w: 0.9819564}
   m_LocalPosition: {x: 0, y: 204, z: -10}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
@@ -4387,9 +4389,9 @@ MonoBehaviour:
   minSpeed: 0
   maxSpeed: 300
   dragCoefficient: 2
-  turnSpeed: 5
-  maxHorizontalAngularSpeed: 1500
-  maxVerticalAngularSpeed: 1000
+  turnSpeed: 100
+  maxHorizontalAngularSpeed: 150
+  maxVerticalAngularSpeed: 100
 --- !u!23 &6177185917272781476
 MeshRenderer:
   m_ObjectHideFlags: 0
