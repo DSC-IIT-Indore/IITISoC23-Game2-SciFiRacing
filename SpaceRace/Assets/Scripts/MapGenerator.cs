@@ -19,6 +19,7 @@ public class MapGenerator : MonoBehaviour
     };
 
     public CinemachineVirtualCamera virtualCamera;
+    public GameObject player;
     private ChunkStitcher chunkStitcher;
     [SerializeField]
     private List<GameObject> mapChunks = new List<GameObject>();
@@ -29,11 +30,14 @@ public class MapGenerator : MonoBehaviour
     private Vector3 spawnPosition = Vector3.zero;
     private int lastChunkID = 13;
     public int maxActiveChunks = 3;
+    public LayerMask layerMask;
 
     void Start()
     {
         terrainSetting = (TerrainSetting)Resources.Load("TerrainSettingSmall", typeof(TerrainSetting));
+        player = GameObject.FindGameObjectWithTag("Player");
         chunkStitcher = new ChunkStitcher();
+        layerMask = LayerMask.GetMask("Map");
         
         GameObject mapChunk = Instantiate(mapChunkPrefab, spawnPosition, Quaternion.identity);
         mapChunk.GetComponent<ProceduralTerrain>().Generate();
@@ -54,12 +58,6 @@ public class MapGenerator : MonoBehaviour
         if(Input.GetKeyDown(KeyCode.Space))
         {
             GenerateMapChunk();
-        }
-
-        if(mapChunks.Count > maxActiveChunks)
-        {
-            Destroy(mapChunks[0]);
-            mapChunks.RemoveAt(0);
         }
 
         if(spawnPosition.sqrMagnitude > maxSpawnDistance * maxSpawnDistance)
@@ -101,5 +99,28 @@ public class MapGenerator : MonoBehaviour
         //Debug.Log("Spawn Position: " + spawnPosition); 
     }
 
+
+    private void FixedUpdate()
+    {
+        CheckMapChunk();
+    }
+
+
+    private void CheckMapChunk()
+    {
+        RaycastHit hit;
+        if(Physics.Raycast(player.transform.position, Vector3.down, out hit, 1000f, layerMask))
+        {
+            if(hit.collider.gameObject.tag == "MapChunk")
+            {
+                int index = mapChunks.IndexOf(hit.collider.gameObject);
+                if(index > 0){
+                    Destroy(mapChunks[0]);
+                    mapChunks.RemoveAt(0);
+                    GenerateMapChunk();
+                }
+            }
+        }
+    }
     
 }

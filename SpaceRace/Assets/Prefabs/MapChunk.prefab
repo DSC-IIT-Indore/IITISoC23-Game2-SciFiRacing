@@ -13,9 +13,9 @@ GameObject:
   - component: {fileID: 8324758298002672411}
   - component: {fileID: 6917275201737187902}
   - component: {fileID: 8756923292535709889}
-  m_Layer: 0
+  m_Layer: 7
   m_Name: MapChunk
-  m_TagString: Untagged
+  m_TagString: Map
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -104,7 +104,6 @@ MonoBehaviour:
   scaleB: 0
   scaleC: 0
   heightMultiplier: 500
-  heightExponent: 1
   spacingIndex: 50
   gradient:
     serializedVersion: 2
@@ -141,7 +140,14 @@ MonoBehaviour:
   noiseHeightMultiplier: 50
   trackWidth: 15
   edgeSmoothing: 1
+  _trackID: 0
   trackID: 13
+  curveResolution: 0.005
+  curvePadding: 0
+  deltaSpawnPosition: {x: 0, y: 0, z: 0}
+  vertices: []
+  minTerrainHeight: 0
+  maxTerrainHeight: 0
 --- !u!64 &8756923292535709889
 MeshCollider:
   m_ObjectHideFlags: 0
