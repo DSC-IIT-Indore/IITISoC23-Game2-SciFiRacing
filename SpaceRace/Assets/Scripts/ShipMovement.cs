@@ -19,6 +19,7 @@ public class ShipMovement : MonoBehaviour
 
     private bool accelInput;
     private Vector3 mousePos;
+    
 
     private Rigidbody rb;
 

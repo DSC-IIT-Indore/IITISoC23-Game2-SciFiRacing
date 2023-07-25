@@ -32,13 +32,19 @@ public class MapGenerator : MonoBehaviour
     public int maxActiveChunks = 3;
     private LayerMask layerMask;
 
-    void Start()
+    
+    void Awake()
+    {
+        GenerateSetup();
+    }
+
+    public void GenerateSetup()
     {
         terrainSetting = (TerrainSetting)Resources.Load("TerrainSettingSmall", typeof(TerrainSetting));
         player = GameObject.FindGameObjectWithTag("Player");
         chunkStitcher = new ChunkStitcher();
         layerMask = LayerMask.GetMask("Map");
-        
+
         GameObject mapChunk = Instantiate(mapChunkPrefab, spawnPosition, Quaternion.identity);
         mapChunk.GetComponent<ProceduralTerrain>().Generate();
         mapChunk.transform.position = Vector3.zero;
@@ -48,7 +54,6 @@ public class MapGenerator : MonoBehaviour
         for(int i=0; i<maxActiveChunks-1; i++){
             GenerateMapChunk();
         }
-
     }
 
     void Update()
