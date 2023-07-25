@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.SceneManagement;
 using UnityEngine.UI;
+using TMPro;
 
 public class GameManager : MonoBehaviour
 {
@@ -11,6 +12,9 @@ public class GameManager : MonoBehaviour
 
     public GameObject loadingScreen;
     public Slider progressSlider;
+    public TextMeshProUGUI scoreText, speedText;
+
+    public float score;
 
     void Start()
     {
@@ -20,8 +24,6 @@ public class GameManager : MonoBehaviour
         StartCoroutine(FillSlider());
         
         mapGenerator.enabled = true;
-        player.GetComponent<ShipMovement>().enabled = true;
-        player.GetComponent<ShipMovement>().ActivateInput();
     }
 
     IEnumerator FillSlider()
@@ -30,11 +32,23 @@ public class GameManager : MonoBehaviour
             progressSlider.value = i/100f;
             yield return new WaitForSeconds(0.01f);
         }
+        player.GetComponent<ShipMovement>().enabled = true;
+        player.GetComponent<ShipMovement>().ActivateInput();
         loadingScreen.SetActive(false);
     }
 
     void Update()
     {
-        
+        if(player != null && player.GetComponent<ShipMovement>().alive == false){
+            player.GetComponent<ShipMovement>().DeactivateInput();
+            mapGenerator.enabled = false;
+            Destroy(player, 1f);
+        }else{
+            float playerVel = player.GetComponent<Rigidbody>().velocity.magnitude;
+            score += Time.deltaTime * playerVel;
+            scoreText.text = score.ToString("0") + " m";
+            speedText.text = playerVel.ToString("0.0") + " m/s";
+        }
+
     }
 }

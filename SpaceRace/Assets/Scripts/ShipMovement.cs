@@ -10,18 +10,22 @@ public class ShipMovement : MonoBehaviour
     public float maxSpeed = 400f;
     public float dragCoefficient = 1f;
 
+    [HideInInspector]
+    public bool alive = true;
     // Input settings 
     [Header("Input Settings")]
+    public float mouseSensitivity = 3f;
     public float turnSpeed = 2.0f;
     public float maxHorizontalAngularSpeed = 10f;
     public float maxVerticalAngularSpeed = 10f;
     public bool getMousePos = false;
 
     private bool accelInput;
-    private Vector3 mousePos;
+    private Vector2 mousePos = Vector2.zero;
     
 
     private Rigidbody rb;
+    public GameObject explosionEffect;
 
     void Start()
     {
@@ -36,21 +40,25 @@ public class ShipMovement : MonoBehaviour
     {
         Cursor.lockState = CursorLockMode.Locked;
         getMousePos = true;
-        Cursor.lockState = CursorLockMode.None;
-        Cursor.visible = false;
     }
 
     public void DeactivateInput()
     {
-        Cursor.lockState = CursorLockMode.Locked;
+        Cursor.lockState = CursorLockMode.None;
         getMousePos = false;
     }
 
     void Update()
     {
         // Get input
-        if(getMousePos) mousePos = Input.mousePosition - new Vector3(Screen.width/2f, Screen.height/2f, 0f);
-        else mousePos = Vector3.Lerp(mousePos, Vector3.zero, turnSpeed * Time.deltaTime);
+        // if(getMousePos) mousePos = Input.mousePosition - new Vector3(Screen.width/2f, Screen.height/2f, 0f);
+        // else mousePos = Vector3.Lerp(mousePos, Vector3.zero, turnSpeed * Time.deltaTime);
+
+        if(getMousePos) mousePos += new Vector2(Input.GetAxis("Mouse X") * mouseSensitivity, Input.GetAxis("Mouse Y") * mouseSensitivity);
+        //else mousePos = Vector3.Lerp(mousePos, Vector3.zero, turnSpeed * Time.deltaTime);
+
+        mousePos.x = Mathf.Clamp(mousePos.x, -Screen.width/2f, Screen.width/2f);
+        mousePos.y = Mathf.Clamp(mousePos.y, -Screen.height/2f, Screen.height/2f);
 
         // Activate or deactivate input
         if(Input.GetKeyDown(KeyCode.LeftControl)) ActivateInput();
@@ -88,5 +96,12 @@ public class ShipMovement : MonoBehaviour
         // Change the velocity direction to match the ship's forward direction
         rb.velocity = Vector3.Lerp(rb.velocity, transform.forward * velMag, dragCoefficient*Time.fixedDeltaTime);
         
+    }
+
+
+    void OnCollisionEnter(Collision collision)
+    {
+        explosionEffect.SetActive(true);
+        alive = false;
     }
 }
