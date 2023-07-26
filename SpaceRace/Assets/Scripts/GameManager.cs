@@ -39,16 +39,17 @@ public class GameManager : MonoBehaviour
 
     void Update()
     {
-        if(player != null && player.GetComponent<ShipMovement>().alive == false){
-            player.GetComponent<ShipMovement>().DeactivateInput();
-            mapGenerator.enabled = false;
-            Destroy(player, 1f);
-        }else{
-            float playerVel = player.GetComponent<Rigidbody>().velocity.magnitude;
-            score += Time.deltaTime * playerVel;
-            scoreText.text = score.ToString("0") + " m";
-            speedText.text = playerVel.ToString("0.0") + " m/s";
+        if(player != null){
+            if(player.GetComponent<ShipMovement>().alive == false){
+                player.GetComponent<ShipMovement>().DeactivateInput();
+                mapGenerator.enabled = false;
+                Destroy(player, 1f);
+            }else{
+                float playerVel = player.GetComponent<Rigidbody>().velocity.magnitude;
+                score += Time.deltaTime * playerVel;
+                scoreText.text = score.ToString("0") + " m";
+                speedText.text = playerVel.ToString("0.0") + " m/s";
+            }
         }
-
     }
 }
