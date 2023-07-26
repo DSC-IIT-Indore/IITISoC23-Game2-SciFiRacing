@@ -38,8 +38,8 @@ public class GameManager : MonoBehaviour
 
     IEnumerator FillSlider()
     {
-        for(int i=0; i <= 100; i += Random.Range(1, 5)){
-            progressSlider.value = i/100f;
+        for(int i=0; i <= 200; i += Random.Range(1, 5)){
+            progressSlider.value = i/200f;
             yield return new WaitForSeconds(0.01f);
         }
         player.GetComponent<ShipMovement>().enabled = true;
