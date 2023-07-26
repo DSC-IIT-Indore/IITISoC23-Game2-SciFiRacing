@@ -33,7 +33,6 @@ public class ShipMovement : MonoBehaviour
         rb.velocity = transform.forward * minSpeed;
 
         //Cursor.lockState = CursorLockMode.Locked;
-        Cursor.visible = false;
     }
 
     public void ActivateInput()

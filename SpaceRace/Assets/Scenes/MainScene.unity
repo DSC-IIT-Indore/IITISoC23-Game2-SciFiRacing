@@ -1271,7 +1271,7 @@ Transform:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 330585543}
-  m_LocalRotation: {x: 0.17481923, y: 0.000000008470706, z: -0.0000000015040029, w: 0.98460054}
+  m_LocalRotation: {x: 0.17481923, y: -0.000000008470707, z: 0.0000000015040033, w: 0.98460054}
   m_LocalPosition: {x: 0, y: 77.2, z: -6}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
@@ -8002,7 +8002,7 @@ Transform:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 808862390}
-  m_LocalRotation: {x: 0.17481923, y: 0.000000008470706, z: -0.0000000015040029, w: 0.98460054}
+  m_LocalRotation: {x: 0.17481923, y: -0.000000008470707, z: 0.0000000015040033, w: 0.98460054}
   m_LocalPosition: {x: 0, y: 77.2, z: -6}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
@@ -8982,7 +8982,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!224 &1107426862
 RectTransform:
   m_ObjectHideFlags: 0
@@ -20073,9 +20073,9 @@ MonoBehaviour:
   m_OnClick:
     m_PersistentCalls:
       m_Calls:
-      - m_Target: {fileID: 1423257497}
-        m_TargetAssemblyTypeName: 
-        m_MethodName: 
+      - m_Target: {fileID: 1423257501}
+        m_TargetAssemblyTypeName: UIHandler, Assembly-CSharp
+        m_MethodName: QuitGame
         m_Mode: 1
         m_Arguments:
           m_ObjectArgument: {fileID: 0}
