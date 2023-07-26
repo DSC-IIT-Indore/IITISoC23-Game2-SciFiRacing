@@ -61,8 +61,8 @@ public class ShipMovement : MonoBehaviour
         mousePos.y = Mathf.Clamp(mousePos.y, -Screen.height/2f, Screen.height/2f);
 
         // Activate or deactivate input
-        if(Input.GetKeyDown(KeyCode.LeftControl)) ActivateInput();
-        if(Input.GetKeyDown(KeyCode.LeftAlt)) DeactivateInput();
+        // if(Input.GetKeyDown(KeyCode.LeftControl)) ActivateInput();
+        // if(Input.GetKeyDown(KeyCode.LeftAlt)) DeactivateInput();
 
         accelInput = Input.GetKey(KeyCode.LeftShift);
         
@@ -101,6 +101,10 @@ public class ShipMovement : MonoBehaviour
 
     void OnCollisionEnter(Collision collision)
     {
+        GameOver();
+    }
+
+    public void GameOver(){
         explosionEffect.SetActive(true);
         alive = false;
     }
